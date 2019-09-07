@@ -7,7 +7,13 @@ pandoc-rss [OPTIONS] -V guid:GUID [FILES]
 # DESCRIPTION
 
 This is a wrapper around pandoc(1) that uses an XML template to generate
-RSS items from source files.
+RSS `<item></item>` elements from source files.
+
+# USAGE
+
+Metadata should include `date`, `description`, `title` and `guid`. The
+`guid` metadata can be specified in the YAML header or on the command
+line.
 
 # EXAMPLES
 
