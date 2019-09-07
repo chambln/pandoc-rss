@@ -1,0 +1,4 @@
+#!/usr/bin/env rc
+
+printf '$meta-json$' > /tmp/pandoc-rss.template
+pandoc --template=/tmp/pandoc-rss.template $*
