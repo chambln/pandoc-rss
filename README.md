@@ -1,21 +1,22 @@
-# SYNOPSIS
-
-``` bash
-pandoc-rss [OPTIONS] -V guid:GUID [FILES]
-```
-
-# DESCRIPTION
+# Pandoc RSS
 
 This is a wrapper around pandoc(1) that uses an XML template to generate
-RSS `<item></item>` elements from source files.
+RSS `<item>…</item>` elements from source files.
 
-# USAGE
+# Usage
 
-Metadata should include `date`, `description`, `title` and `guid`. The
-`guid` metadata can be specified in the YAML header or on the command
-line.
+``` bash
+pandoc-rss -V guid:GUID [OPTIONS] [FILES]
+```
 
-# EXAMPLES
+At minimum, your metadata should include `date`, `description`, `title`
+and `guid`.
+
+The `guid` field is not canonical to Pandoc. It can be specified in the
+YAML header or on the command line, and is used as the RSS item’s GUID
+and link.
+
+## Examples
 
 ``` bash
 pandoc-rss -V 'guid:https://example.org/1965-06-19-fox-in-socks.html' fox-in-socks.md
