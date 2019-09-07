@@ -1,8 +1,7 @@
 ---
 author: 'Dr. Seuss'
 date: 'June 19, 1965'
-description: 'Classic children''s book by Dr. Suess.'
-lang: 'en-US'
+description: 'Classic 1965 children''s book by Dr. Suess.'
 title: Fox in Socks
 ---
 

@@ -1,21 +1,25 @@
 #!/usr/bin/env rc
 
-printf %s\n (
-    '<item>'
-    '<title>$title$</title>'
-    '<link>$guid$</link>'
-    '<guid>$guid$</guid>'
-    '$if(description)$'
-    '<description>$description$</description>'
-    '$endif$'
-    '$if(lang)$'
-    '<language>$lang$</language>'
-    '$endif$'
-    '<pubDate>$date$</pubDate>'
-    '<lastBuildDate>$lastBuildDate$</lastBuildDate>'
-    '</item>'
-) > /tmp/pandoc-rss.xml
+SUFFIX = .md
 
-lastBuildDate = ``$nl{date +%F}
+printf %s\n > /tmp/pandoc-rss.xml (
+	'<item>'
+	'<title>$title$</title>'
+	'<link>$guid$</link>'
+	'<guid>$guid$</guid>'
+	'$if(description)$'
+	'<description>$description$</description>'
+	'$endif$'
+	'$if(lang)$'
+	'<language>$lang$</language>'
+	'$endif$'
+	'<pubDate>$date$</pubDate>'
+	'</item>'
+)
 
-pandoc --template=/tmp/pandoc-rss.xml -V lastBuildDate:$^lastBuildDate $*
+guid = $1
+shift
+for (i in $*) {
+	id = $^guid^`{basename -a -s^$^SUFFIX $^i}
+	pandoc --template=/tmp/pandoc-rss.xml -V guid:$^id $^i
+}
