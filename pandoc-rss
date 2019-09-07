@@ -17,9 +17,11 @@ printf %s\n > /tmp/pandoc-rss.xml (
 	'</item>'
 )
 
+ifs='
+'
 guid = $1
 shift
 for (i in $*) {
-	id = $^guid^`{basename -a -s^$^SUFFIX $^i}
+	id = $^guid^`{ printf $^i | sed 's/\.\w*$//' }
 	pandoc --template=/tmp/pandoc-rss.xml -V guid:$^id $^i
 }
