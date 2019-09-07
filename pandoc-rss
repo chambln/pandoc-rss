@@ -16,6 +16,6 @@ printf %s\n (
     '</item>'
 ) > /tmp/pandoc-rss.xml
 
-lastBuildDate = ``$nl{date}
+lastBuildDate = ``$nl{date +%F}
 
 pandoc --template=/tmp/pandoc-rss.xml -V lastBuildDate:$^lastBuildDate $*
