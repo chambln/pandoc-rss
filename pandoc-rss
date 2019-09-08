@@ -22,7 +22,7 @@ for (i in $*) {
 	date = `{ date -u -d `{
 		pandoc --template=/tmp/pandoc-rss.json $^i | jq -r .date
 	} '+%a, %d %b %Y %T UTC' }
-	linkprefix = $^prefix^`{ printf $^i | sed 's/\.\w*$//' }^$^suffix
+	linkprefix = $^prefix^`{ basename $^i | sed 's/\.\w*$//' }^$^suffix
 	pandoc --template=/tmp/pandoc-rss.xml \
 		-V linkprefix:$^linkprefix $^i \
 		-V date:$^date
