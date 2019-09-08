@@ -37,7 +37,7 @@ At minimum, your metadata should include `date`, `description`, and
 date(1)---the script transforms it into the standard RSS-compatible
 format.
 
-### Examples
+### Example
 
 Here's one way to use this tool. Let's say you have two Markdown files
 and the the top and bottom of your RSS XML file:
