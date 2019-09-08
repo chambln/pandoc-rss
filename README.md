@@ -1,7 +1,20 @@
 # Pandoc RSS
 
 This is a simple wrapper around pandoc(1) that uses an XML template to
-generate RSS `<item>…</item>` elements from a source file.
+generate a sequence of `<item>…</item>` elements from markup source
+files. You can use it to create an RSS feed from a series of articles
+that have Pandoc-readable metadata.
+
+I wrote it to be used with my [static site
+generator](https://github.com/chambln/red/) that powers [my
+website](https://cosine.blue/).
+
+# Dependencies
+
+This script is written in rc(1) shell, specifically Byron Rakitzis’
+dialect. [I wrote an article on how to get that set
+up](https://cosine.blue/2019-06-26-rc-shell-setup.html). I might port it
+to sh(1) at some point.
 
 # Usage
 
@@ -16,32 +29,74 @@ item’s GUID and link. It can be specified in the YAML header or on the
 command line.
 
 At minimum, your metadata should include `date`, `description`, and
-`title`.
+`title`. Make sure the `date` variable can be correctly interpretted by
+date(1)—the script transforms it into the standard RSS-compatible
+format.
 
 ## Examples
 
-Command:
+Here’s one way to use this tool. Let’s say you have two Markdown files
+and the the top and bottom of your RSS XML file:
 
-``` bash
-pandoc-rss 'https://example.org/' fox-in-socks.md green-eggs-and-ham.md
-```
-
-Output:
+    $ ls
+    1960-08-12-green-eggs-and-ham.md
+    1965-06-19-fox-in-socks.md
+    rss-after.xml
+    rss-before.xml
 
 ``` xml
-<item>
-<title>Fox in Socks</title>
-<link>https://example.org/fox-in-socks</link>
-<guid>https://example.org/fox-in-socks</guid>
-<description>Classic 1965 children’s book by Dr. Suess.</description>
-<pubDate>June 19, 1965</pubDate>
-</item>
+$ cat rss-before.xml
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+<title>Example feed</title>
+<description>A simple example of an RSS feed.</description>
+<language>en-GB</language>
+<link>http://example.org/rss.xml</link>
+```
+
+    $ cat rss-after.xml
+    </channel>
+    </rss>
+
+First, invoke `pandoc-rss` to create the list of RSS items. Here we
+redirect its standard output to `rss-items.xml`:
+
+``` bash
+$ pandoc-rss 'https://example.org/articles/' *.md > rss-items.xml
+```
+
+Now sandwich that between your top and bottom XML fragments:
+
+``` bash
+$ cat rss-before.xml rss-items.xml rss-after.xml > rss.xml
+```
+
+And finally you have your complete RSS feed:
+
+``` xml
+$ cat rss.xml
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+<title>Example feed</title>
+<description>A simple example of an RSS feed.</description>
+<language>en-GB</language>
+<link>http://example.org/rss.xml</link>
 <item>
 <title>Green Eggs and Ham</title>
-<link>https://example.org/green-eggs-and-ham</link>
-<guid>https://example.org/green-eggs-and-ham</guid>
-<description>Classic 1960 children’s book by Dr. Suess.</description>
-<language>en-US</language>
-<pubDate>August 12, 1960</pubDate>
+<link>https://example.org/articles/1960-08-12-green-eggs-and-ham</link>
+<guid>https://example.org/articles/1960-08-12-green-eggs-and-ham</guid>
+<description>Classic 1960 children’s book by Dr. Seuss.</description>
+<pubDate>Fri, 12 Aug 1960 00:00:00 UTC</pubDate>
 </item>
+<item>
+<title>Fox in Socks</title>
+<link>https://example.org/articles/1965-06-19-fox-in-socks</link>
+<guid>https://example.org/articles/1965-06-19-fox-in-socks</guid>
+<description>Classic 1965 children’s book by Dr. Seuss.</description>
+<pubDate>Sat, 19 Jun 1965 00:00:00 UTC</pubDate>
+</item>
+</channel>
+</rss>
 ```

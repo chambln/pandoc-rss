@@ -1,7 +1,6 @@
 #!/usr/bin/env rc
 
-SUFFIX = .md
-
+printf '$meta-json$' > /tmp/pandoc-rss.json
 printf %s\n > /tmp/pandoc-rss.xml (
 	'<item>'
 	'<title>$title$</title>'
@@ -9,9 +8,6 @@ printf %s\n > /tmp/pandoc-rss.xml (
 	'<guid>$guid$</guid>'
 	'$if(description)$'
 	'<description>$description$</description>'
-	'$endif$'
-	'$if(lang)$'
-	'<language>$lang$</language>'
 	'$endif$'
 	'<pubDate>$date$</pubDate>'
 	'</item>'
@@ -22,6 +18,9 @@ ifs='
 guid = $1
 shift
 for (i in $*) {
+	date = `{ date -u -d `{
+		pandoc --template=/tmp/pandoc-rss.json $^i | jq -r .date
+	} '+%a, %d %b %Y %T UTC' }
 	id = $^guid^`{ printf $^i | sed 's/\.\w*$//' }
-	pandoc --template=/tmp/pandoc-rss.xml -V guid:$^id $^i
+	pandoc --template=/tmp/pandoc-rss.xml -V guid:$^id $^i -V date:$^date
 }
