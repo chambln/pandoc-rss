@@ -103,3 +103,23 @@ $ cat rss.xml
 </channel>
 </rss>
 ```
+
+To generate the same but in reverse chronological order, you could do
+something like this:
+
+``` bash
+ls *.md | tac | xargs -d '\n' pandoc-rss 'https://example.org/articles/'
+```
+
+or forgo the xargs dependency and use your shell’s command substitution
+with a new-line internal field separator:
+
+```bash
+    IFS='
+    ' pandoc-rss https://example.org/articles/ $(ls *.md | tac)
+```
+
+Or in rc shell:
+
+    pandoc-rss https://example.org/articles/ ``$nl{ls *.md | tac}
+    
