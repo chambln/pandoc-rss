@@ -23,7 +23,7 @@ Usage
 General usage is
 
 ``` {.bash}
-pandoc-rss PREFIX [FILES]
+pandoc-rss PREFIX FILE [FILE ...]
 ```
 
 where PREFIX is prepended to each file’s basename to make the RSS item’s
