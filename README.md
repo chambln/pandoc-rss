@@ -12,13 +12,13 @@ website](https://cosine.blue/).
 
 ## Dependencies
 
-This script is written in rc(1) shell, specifically Byron Rakitzis’
-dialect. [I wrote an article on how to get that set
-up](https://cosine.blue/2019-06-26-rc-shell-setup.html). I might port it
-to sh(1) at some point.
-
-You also need jq(1) which is used to extract the date metadata from
-Pandoc’s JSON output.
+  - rc(1) — specifically Byron Rakitzis’ dialect. [I wrote an article on
+    how to get that set
+    up](https://cosine.blue/2019-06-26-rc-shell-setup.html). I might
+    port it to sh(1) at some point.
+  - pandoc(1)
+  - jq(1) — used to extract date metadata from Pandoc’s `$meta-json$`
+    output.
 
 ## Usage
 
