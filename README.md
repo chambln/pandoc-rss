@@ -1,5 +1,4 @@
-Pandoc RSS
-==========
+# Pandoc RSS
 
 This is a shell script that uses pandoc(1) with an XML template to
 generate a sequence of `<item>…</item>` elements from markup source
@@ -7,22 +6,22 @@ files. You can use it to create an RSS feed from a series of files that
 Pandoc can read metadata from, such as ReST or Pandoc-flavoured
 Markdown.
 
-I wrote it to be used with tools such as the [static site generator]
-that I use to generate [my website].
+I wrote it to be used with tools such as the [static site
+generator](https://github.com/chambln/red/) that I use to generate [my
+website](https://cosine.blue/).
 
-Dependencies
-------------
+## Dependencies
 
-This script is written in rc(1) shell, specifically Byron Rakitzis'
-dialect. [I wrote an article on how to get that set up]. I might port it
+This script is written in rc(1) shell, specifically Byron Rakitzis’
+dialect. [I wrote an article on how to get that set
+up](https://cosine.blue/2019-06-26-rc-shell-setup.html). I might port it
 to sh(1) at some point.
 
-Usage
------
+## Usage
 
 General usage is
 
-``` {.bash}
+``` bash
 pandoc-rss PREFIX FILE [FILE ...]
 ```
 
@@ -34,12 +33,12 @@ GUID and link. For example, if the PREFIX was
 
 At minimum, your metadata should include `date`, `description`, and
 `title`. Make sure the `date` variable can be correctly interpretted by
-date(1)---the script transforms it into the standard RSS-compatible
+date(1)—the script transforms it into the standard RSS-compatible
 format.
 
 ### Example
 
-Here's one way to use this tool. Let's say you have two Markdown files
+Here’s one way to use this tool. Let’s say you have two Markdown files
 and the the top and bottom of your RSS XML file:
 
     $ ls
@@ -48,7 +47,7 @@ and the the top and bottom of your RSS XML file:
     rss-after.xml
     rss-before.xml
 
-``` {.xml}
+``` xml
 $ cat rss-before.xml
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
@@ -66,19 +65,19 @@ $ cat rss-before.xml
 First, invoke `pandoc-rss` to create the list of RSS items. Here we
 redirect its standard output to `rss-items.xml`:
 
-``` {.bash}
+``` bash
 $ pandoc-rss 'https://example.org/articles/' *.md > rss-items.xml
 ```
 
 Now sandwich that between your top and bottom XML fragments:
 
-``` {.bash}
+``` bash
 $ cat rss-before.xml rss-items.xml rss-after.xml > rss.xml
 ```
 
 And finally you have your complete RSS feed:
 
-``` {.xml}
+``` xml
 $ cat rss.xml
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
@@ -104,7 +103,3 @@ $ cat rss.xml
 </channel>
 </rss>
 ```
-
-  [static site generator]: https://github.com/chambln/red/
-  [my website]: https://cosine.blue/
-  [I wrote an article on how to get that set up]: https://cosine.blue/2019-06-26-rc-shell-setup.html
