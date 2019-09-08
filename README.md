@@ -9,14 +9,14 @@ I wrote it to be used with my [static site
 generator](https://github.com/chambln/red/) that powers [my
 website](https://cosine.blue/).
 
-# Dependencies
+## Dependencies
 
 This script is written in rc(1) shell, specifically Byron Rakitzis’
 dialect. [I wrote an article on how to get that set
 up](https://cosine.blue/2019-06-26-rc-shell-setup.html). I might port it
 to sh(1) at some point.
 
-# Usage
+## Usage
 
 General usage is
 
@@ -33,7 +33,7 @@ At minimum, your metadata should include `date`, `description`, and
 date(1)—the script transforms it into the standard RSS-compatible
 format.
 
-## Examples
+### Examples
 
 Here’s one way to use this tool. Let’s say you have two Markdown files
 and the the top and bottom of your RSS XML file:
