@@ -35,9 +35,9 @@ RSS item’s GUID and link. For example, if the PREFIX was
 `https://example.org/posts/2019-09-08-top-10-saddest-anime-deaths.html`.
 The SUFFIX may be the empty string.
 
-At minimum, your metadata should include `date`, `description`, and
-`title`. Make sure the `date` variable can be correctly interpretted by
-date(1)—the script transforms it into the standard RSS-compatible
+At minimum, each file’s metadata should include `date`, `description`,
+and `title`. Make sure the `date` variable can be correctly interpretted
+by date(1)—the script transforms it into the standard RSS-compatible
 format.
 
 ### Example
