@@ -4,8 +4,8 @@ printf '$meta-json$' > /tmp/pandoc-rss.json
 printf %s\n > /tmp/pandoc-rss.xml (
 	'<item>'
 	'<title>$title$</title>'
-	'<link>$guid$</link>'
-	'<guid>$guid$</guid>'
+	'<link>$linkprefix$</link>'
+	'<guid>$linkprefix$</guid>'
 	'$if(description)$'
 	'<description>$description$</description>'
 	'$endif$'
@@ -15,12 +15,15 @@ printf %s\n > /tmp/pandoc-rss.xml (
 
 ifs='
 '
-guid = $1
-shift
+prefix = $1
+suffix = $2
+shift 2
 for (i in $*) {
 	date = `{ date -u -d `{
 		pandoc --template=/tmp/pandoc-rss.json $^i | jq -r .date
 	} '+%a, %d %b %Y %T UTC' }
-	id = $^guid^`{ printf $^i | sed 's/\.\w*$//' }
-	pandoc --template=/tmp/pandoc-rss.xml -V guid:$^id $^i -V date:$^date
+	linkprefix = $^prefix^`{ printf $^i | sed 's/\.\w*$//' }^$^suffix
+	pandoc --template=/tmp/pandoc-rss.xml \
+		-V linkprefix:$^linkprefix $^i \
+		-V date:$^date
 }

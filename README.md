@@ -17,19 +17,23 @@ dialect. [I wrote an article on how to get that set
 up](https://cosine.blue/2019-06-26-rc-shell-setup.html). I might port it
 to sh(1) at some point.
 
+You also need jq(1) which is used to extract the date metadata from
+Pandoc’s JSON output.
+
 ## Usage
 
 General usage is
 
 ``` bash
-pandoc-rss PREFIX FILE [FILE ...]
+pandoc-rss PREFIX SUFFIX FILE [FILE ...]
 ```
 
-where PREFIX is prepended to each file’s basename to make the RSS item’s
-GUID and link. For example, if the PREFIX was
-`https://example.org/posts/`, then a file called
+where PREFIX and SUFFIX are affixed to each file’s basename to make the
+RSS item’s GUID and link. For example, if the PREFIX was
+`https://example.org/posts/` and the SUFFIX `.html`, then a file called
 `2019-09-08-top-10-saddest-anime-deaths.rst` would become
-`https://example.org/posts/2019-09-08-top-10-saddest-anime-deaths`.
+`https://example.org/posts/2019-09-08-top-10-saddest-anime-deaths.html`.
+The SUFFIX may be the empty string.
 
 At minimum, your metadata should include `date`, `description`, and
 `title`. Make sure the `date` variable can be correctly interpretted by
@@ -66,7 +70,7 @@ First, invoke `pandoc-rss` to create the list of RSS items. Here we
 redirect its standard output to `rss-items.xml`:
 
 ``` bash
-$ pandoc-rss 'https://example.org/articles/' *.md > rss-items.xml
+$ pandoc-rss https://example.org/articles/ .html *.md > rss-items.xml
 ```
 
 Now sandwich that between your top and bottom XML fragments:
@@ -88,15 +92,15 @@ $ cat rss.xml
 <link>http://example.org/rss.xml</link>
 <item>
 <title>Green Eggs and Ham</title>
-<link>https://example.org/articles/1960-08-12-green-eggs-and-ham</link>
-<guid>https://example.org/articles/1960-08-12-green-eggs-and-ham</guid>
+<link>https://example.org/articles/1960-08-12-green-eggs-and-ham.html</link>
+<guid>https://example.org/articles/1960-08-12-green-eggs-and-ham.html</guid>
 <description>Classic 1960 children’s book by Dr. Seuss.</description>
 <pubDate>Fri, 12 Aug 1960 00:00:00 UTC</pubDate>
 </item>
 <item>
 <title>Fox in Socks</title>
-<link>https://example.org/articles/1965-06-19-fox-in-socks</link>
-<guid>https://example.org/articles/1965-06-19-fox-in-socks</guid>
+<link>https://example.org/articles/1965-06-19-fox-in-socks.html</link>
+<guid>https://example.org/articles/1965-06-19-fox-in-socks.html</guid>
 <description>Classic 1965 children’s book by Dr. Seuss.</description>
 <pubDate>Sat, 19 Jun 1965 00:00:00 UTC</pubDate>
 </item>
@@ -114,12 +118,11 @@ ls *.md | tac | xargs -d '\n' pandoc-rss 'https://example.org/articles/'
 or forgo the xargs dependency and use your shell’s command substitution
 with a new-line internal field separator:
 
-```bash
-    IFS='
-    ' pandoc-rss https://example.org/articles/ $(ls *.md | tac)
+``` bash
+IFS='
+' pandoc-rss https://example.org/articles/ $(ls *.md | tac)
 ```
 
 Or in rc shell:
 
     pandoc-rss https://example.org/articles/ ``$nl{ls *.md | tac}
-    
