@@ -1,12 +1,13 @@
 # Pandoc RSS
 
-This is a simple wrapper around pandoc(1) that uses an XML template to
+This is a shell script that uses pandoc(1) with an XML template to
 generate a sequence of `<item>…</item>` elements from markup source
-files. You can use it to create an RSS feed from a series of articles
-that have Pandoc-readable metadata.
+files. You can use it to create an RSS feed from a series of files that
+Pandoc can read metadata from, such as ReST or Pandoc-flavoured
+Markdown.
 
-I wrote it to be used with my [static site
-generator](https://github.com/chambln/red/) that powers [my
+I wrote it to be used with tools such as the [static site
+generator](https://github.com/chambln/red/) that I use to generate [my
 website](https://cosine.blue/).
 
 ## Dependencies
