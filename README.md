@@ -43,7 +43,7 @@ format.
 ### Example
 
 Here’s one way to use this tool. Let’s say you have two Markdown files
-and the the top and bottom of your RSS XML file:
+and the top and bottom of your RSS XML file:
 
     $ ls
     1960-08-12-green-eggs-and-ham.md
