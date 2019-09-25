@@ -98,9 +98,14 @@ $ cat rss.xml
 </rss>
 ```
 
-Here’s how I set it up in the makefile for my website:
+Here’s how I set it up in the
+[makefile](https://github.com/chambln/chambln.github.io/blob/master/Makefile)
+for [my website](https://cosine.blue):
 
-    rss.xml: $(src_posts)
-        cat src/include/rss-before.xml > $@
-        pandoc-rss https://cosine.blue/ .html $^ >> $@
-        cat src/include/rss-after.xml >> $@
+``` makefile
+src_posts := $(shell ls src/posts/*.md | sort -r)
+rss.xml: $(src_posts)
+    cat src/include/rss-before.xml > $@
+    pandoc-rss https://cosine.blue/ .html $^ >> $@
+    cat src/include/rss-after.xml >> $@
+```
