@@ -104,6 +104,7 @@ for [my website](https://cosine.blue):
 
 ``` makefile
 src_posts := $(shell ls src/posts/*.md | sort -r)
+⋮
 rss.xml: $(src_posts)
     cat src/include/rss-before.xml > $@
     pandoc-rss https://cosine.blue/ .html $^ >> $@
