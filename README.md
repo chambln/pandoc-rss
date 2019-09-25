@@ -40,44 +40,34 @@ and `title`. Make sure the `date` variable can be correctly interpretted
 by date(1)—the script transforms it into the standard RSS-compatible
 format.
 
-### Example
+## Example
 
 Here’s one way to use this tool. Let’s say you have two Markdown files
-and the top and bottom of your RSS XML file:
+and the top and bottom fragments of your RSS XML file:
 
-    $ ls
-    1960-08-12-green-eggs-and-ham.md
-    1965-06-19-fox-in-socks.md
-    rss-after.xml
-    rss-before.xml
-
-``` xml
-$ cat rss-before.xml
-<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0">
-<channel>
-<title>Example feed</title>
-<description>A simple example of an RSS feed.</description>
-<language>en-GB</language>
-<link>http://example.org/rss.xml</link>
-```
-
+    $ tree
+    .
+    ├── 1960-08-12-green-eggs-and-ham.md
+    ├── 1965-06-19-fox-in-socks.md
+    ├── rss-after.xml
+    └── rss-before.xml
+    $ cat rss-before.xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <rss version="2.0">
+    <channel>
+    <title>Example feed</title>
+    <description>A simple example of an RSS feed.</description>
+    <language>en-GB</language>
+    <link>http://example.org/rss.xml</link>
     $ cat rss-after.xml
     </channel>
     </rss>
 
-First, invoke `pandoc-rss` to create the list of RSS items. Here we
-redirect its standard output to `rss-items.xml`:
+Construct your feed like so:
 
-``` bash
-$ pandoc-rss https://example.org/articles/ .html *.md > rss-items.xml
-```
-
-Now sandwich that between your top and bottom XML fragments:
-
-``` bash
-$ cat rss-before.xml rss-items.xml rss-after.xml > rss.xml
-```
+    $ cat rss-before.xml > rss.xml
+    $ pandoc-rss https://example.org/articles/ .html *.md >> rss.xml
+    $ cat rss-after.xml >> rss.xml
 
 And finally you have your complete RSS feed:
 
@@ -108,21 +98,9 @@ $ cat rss.xml
 </rss>
 ```
 
-To generate the same but in reverse chronological order, you could do
-something like this:
+Here’s how I set it up in the makefile for my website:
 
-``` bash
-ls *.md | tac | xargs -d '\n' pandoc-rss 'https://example.org/articles/'
-```
-
-or forgo the xargs dependency and use your shell’s command substitution
-with a new-line internal field separator:
-
-``` bash
-IFS='
-' pandoc-rss https://example.org/articles/ $(ls *.md | tac)
-```
-
-Or in rc shell:
-
-    pandoc-rss https://example.org/articles/ ``$nl{ls *.md | tac}
+    rss.xml: $(src_posts)
+        cat src/include/rss-before.xml > $@
+        pandoc-rss https://cosine.blue/ .html $^ >> $@
+        cat src/include/rss-after.xml >> $@
