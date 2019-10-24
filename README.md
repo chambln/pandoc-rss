@@ -51,23 +51,31 @@ and the top and bottom fragments of your RSS XML file:
     ├── 1965-06-19-fox-in-socks.md
     ├── rss-after.xml
     └── rss-before.xml
-    $ cat rss-before.xml
-    <?xml version="1.0" encoding="utf-8"?>
-    <rss version="2.0">
-    <channel>
-    <title>Example feed</title>
-    <description>A simple example of an RSS feed.</description>
-    <language>en-GB</language>
-    <link>http://example.org/rss.xml</link>
-    $ cat rss-after.xml
-    </channel>
-    </rss>
+
+``` xml
+$ cat rss-before.xml
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+<title>Example feed</title>
+<description>A simple example of an RSS feed.</description>
+<language>en-GB</language>
+<link>http://example.org/rss.xml</link>
+```
+
+``` xml
+$ cat rss-after.xml
+</channel>
+</rss>
+```
 
 Construct your feed like so:
 
-    $ cat rss-before.xml > rss.xml
-    $ pandoc-rss https://example.org/articles/ .html *.md >> rss.xml
-    $ cat rss-after.xml >> rss.xml
+``` bash
+$ cat rss-before.xml > rss.xml
+$ pandoc-rss https://example.org/articles/ .html *.md >> rss.xml
+$ cat rss-after.xml >> rss.xml
+```
 
 And finally you have your complete RSS feed:
 
@@ -104,7 +112,9 @@ for [my website](https://cosine.blue):
 
 ``` makefile
 src_posts := $(shell ls src/posts/*.md | sort -r)
+
 ⋮
+
 rss.xml: $(src_posts)
     cat src/include/rss-before.xml > $@
     pandoc-rss https://cosine.blue/ .html $^ >> $@
