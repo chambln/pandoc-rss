@@ -14,8 +14,8 @@ website](https://cosine.blue/).
 
   - rc(1) — specifically Byron Rakitzis’ dialect. [I wrote an article on
     how to get that set
-    up](https://cosine.blue/2019-06-26-rc-shell-setup.html). I might
-    port it to sh(1) at some point.
+    up](https://cosine.blue/2019-06-26-rc-shell-setup.html). I indend on
+    porting pandoc-rss to POSIX-compliant sh(1).
   - pandoc(1)
   - jq(1) — used to extract date metadata from Pandoc’s `$meta-json$`
     output.
