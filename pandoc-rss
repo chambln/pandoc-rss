@@ -1,29 +1,32 @@
-#!/usr/bin/env rc
+#!/bin/sh
 
-printf '$meta-json$' > /tmp/pandoc-rss.json
-printf %s\n > /tmp/pandoc-rss.xml (
-	'<item>'
-	'<title>$title$</title>'
-	'<link>$linkprefix$</link>'
-	'<guid>$linkprefix$</guid>'
-	'$if(description)$'
-	'<description>$description$</description>'
-	'$endif$'
-	'<pubDate>$date$</pubDate>'
-	'</item>'
-)
+tmp="$(mktemp -d "${TMPDIR:-/tmp}/pandoc-rss.XXXXXXXX")"
 
-ifs='
-'
-prefix = $1
-suffix = $2
-shift 2
-for (i in $*) {
-	date = `{ date -u -d `{
-		pandoc --template=/tmp/pandoc-rss.json $^i | jq -r .date
-	} '+%a, %d %b %Y %T UTC' }
-	linkprefix = $^prefix^`{ basename $^i | sed 's/\.\w*$//' }^$^suffix
-	pandoc --template=/tmp/pandoc-rss.xml \
-		-V linkprefix:$^linkprefix $^i \
-		-V date:$^date
-}
+printf '%s\n' '$meta-json$' > "$tmp/template.json"
+
+cat > "$tmp/template.xml" <<'EOF'
+<item>
+<title>$title$</title>
+<link>$linkprefix$</link>
+<guid>$linkprefix$</guid>
+$if(description)$
+<description>$description$</description>
+$endif$
+<pubDate>$date$</pubDate>
+</item>
+EOF
+
+format="$1"
+shift
+
+for i in "$@"; do
+    date="$(pandoc --template="$tmp/template.json" "$i" | jq -r .date)"
+    date="$(date -u -d "$date" '+%a, %d %b %Y %T UTC')"
+    basename="$(basename "$i" | sed 's/\.\w\+$//')"
+    linkprefix="$(printf "$format" "$basename")"
+    pandoc --template="$tmp/template.xml" \
+      -V "linkprefix:$linkprefix" "$i" \
+      -V "date:$date"
+done
+
+rm -r "$tmp"

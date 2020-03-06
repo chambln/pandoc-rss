@@ -12,20 +12,16 @@ website](https://cosine.blue/).
 
 ## Dependencies
 
-  - rc(1) — specifically Byron Rakitzis’ dialect. [I wrote an article on
-    how to get that set
-    up](https://cosine.blue/2019-06-26-rc-shell-setup.html). I indend on
-    porting pandoc-rss to POSIX-compliant sh(1).
+  - GNU coreutils date(1)
   - pandoc(1)
-  - jq(1) — used to extract date metadata from Pandoc’s `$meta-json$`
-    output.
+  - jq(1) — to extract date metadata from Pandoc’s `$meta-json$` output.
 
 ## Usage
 
 General usage is
 
 ``` bash
-pandoc-rss PREFIX SUFFIX FILE [FILE ...]
+pandoc-rss FORMAT FILE [FILE ...]
 ```
 
 where PREFIX and SUFFIX are affixed to each file’s basename to make the
