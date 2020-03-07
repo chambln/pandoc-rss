@@ -27,16 +27,8 @@ while :; do
         format="$2"
         shift 2
         ;;
-    -p|--prefix)
-        prefix="$2"
-        shift 2
-        ;;
-    -s|--suffix)
-        suffix="$2"
-        shift 2
-        ;;
     -h|--help)
-        die 'Usage: pandoc-rss [-f FORMAT] [-p PREFIX] [-s SUFFIX] [FILE]...'
+        die 'Usage: pandoc-rss -f FORMAT FILE [FILE ...]'
         ;;
     --)
         shift
@@ -51,11 +43,13 @@ while :; do
     esac
 done
 
+[ -n "$format" ] || die 'Please specify a format string.'
+
 for i in "$@"; do
     date="$(pandoc --template="$tmp/template.json" "$i" | jq -r .date)"
     date="$(date -u -d "$date" '+%a, %d %b %Y %T UTC')"
     basename="$(basename "$i" | sed 's/\.\w\+$//')"
-    linkprefix="$(printf "${prefix}${format:-%s}${suffix}" "$basename")"
+    linkprefix="$(printf "$format" "$basename")"
     pandoc --template="$tmp/template.xml" \
       -V "linkprefix:$linkprefix" "$i" \
       -V "date:$date"

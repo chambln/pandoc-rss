@@ -21,7 +21,7 @@ website](https://cosine.blue/).
 General usage is
 
 ``` bash
-pandoc-rss FORMAT FILE [FILE ...]
+pandoc-rss -f FORMAT FILE [FILE ...]
 ```
 
 where PREFIX and SUFFIX are affixed to each file’s basename to make the
