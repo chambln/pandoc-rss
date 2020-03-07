@@ -116,3 +116,8 @@ rss.xml: $(src_posts)
     pandoc-rss https://cosine.blue/ .html $^ >> $@
     cat src/include/rss-after.xml >> $@
 ```
+
+## Bugs and notes
+
+  - Not tested with filenames that have spaces or other characters
+    considered special in URLs.
