@@ -24,17 +24,13 @@ General usage is
 pandoc-rss -f FORMAT FILE [FILE ...]
 ```
 
-where PREFIX and SUFFIX are affixed to each file’s basename to make the
-RSS item’s GUID and link. For example, if the PREFIX was
-`https://example.org/posts/` and the SUFFIX `.html`, then a file called
-`2019-09-08-top-10-saddest-anime-deaths.rst` would become
-`https://example.org/posts/2019-09-08-top-10-saddest-anime-deaths.html`.
-The SUFFIX may be the empty string.
+where FORMAT is a printf(1) format string with which each file’s
+basename is used to form its RSS item’s GUID and link.
 
 At minimum, each file’s metadata should include `date`, `description`,
-and `title`. Make sure the `date` variable can be correctly interpretted
-by date(1)—the script transforms it into the standard RSS-compatible
-format.
+and `title`. Make sure the content of the `date` variable is written in
+a format that will be correctly interpretted by GNU date(1), which
+pandoc-rss uses to transform it into the standard RSS-compatible format.
 
 ## Example
 
@@ -48,7 +44,7 @@ and the top and bottom fragments of your RSS XML file:
     ├── rss-after.xml
     └── rss-before.xml
 
-``` xml
+```xml
 $ cat rss-before.xml
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
@@ -59,7 +55,7 @@ $ cat rss-before.xml
 <link>http://example.org/rss.xml</link>
 ```
 
-``` xml
+```xml
 $ cat rss-after.xml
 </channel>
 </rss>
@@ -67,15 +63,15 @@ $ cat rss-after.xml
 
 Construct your feed like so:
 
-``` bash
+```sh
 $ cat rss-before.xml > rss.xml
-$ pandoc-rss https://example.org/articles/ .html *.md >> rss.xml
+$ pandoc-rss -f 'https://example.org/articles/%s.html' *.md >> rss.xml
 $ cat rss-after.xml >> rss.xml
 ```
 
-And finally you have your complete RSS feed:
+Finally you have your complete RSS feed:
 
-``` xml
+```xml
 $ cat rss.xml
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
@@ -113,7 +109,7 @@ src_posts := $(shell ls src/posts/*.md | sort -r)
 
 rss.xml: $(src_posts)
     cat src/include/rss-before.xml > $@
-    pandoc-rss https://cosine.blue/ .html $^ >> $@
+    pandoc-rss -f 'https://cosine.blue/%s.html' $^ >> $@
     cat src/include/rss-after.xml >> $@
 ```
 
