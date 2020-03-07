@@ -1,5 +1,10 @@
 #!/bin/sh
 
+die() {
+    printf "$0: %s\n" "$@" 1>&2
+    exit 1
+}
+
 tmp="$(mktemp -d "${TMPDIR:-/tmp}/pandoc-rss.XXXXXXXX")"
 
 printf '%s\n' '$meta-json$' > "$tmp/template.json"
@@ -16,14 +21,41 @@ $endif$
 </item>
 EOF
 
-format="$1"
-shift
+while :; do
+    case "$1" in
+    -f|--format)
+        format="$2"
+        shift 2
+        ;;
+    -p|--prefix)
+        prefix="$2"
+        shift 2
+        ;;
+    -s|--suffix)
+        suffix="$2"
+        shift 2
+        ;;
+    -h|--help)
+        die 'Usage: pandoc-rss [-f FORMAT] [-p PREFIX] [-s SUFFIX] [FILE]...'
+        ;;
+    --)
+        shift
+        break
+        ;;
+    -*)
+        die "No such option ‘$1’"
+        ;;
+    *)
+        break
+        ;;
+    esac
+done
 
 for i in "$@"; do
     date="$(pandoc --template="$tmp/template.json" "$i" | jq -r .date)"
     date="$(date -u -d "$date" '+%a, %d %b %Y %T UTC')"
     basename="$(basename "$i" | sed 's/\.\w\+$//')"
-    linkprefix="$(printf "$format" "$basename")"
+    linkprefix="$(printf "${prefix}${format:-%s}${suffix}" "$basename")"
     pandoc --template="$tmp/template.xml" \
       -V "linkprefix:$linkprefix" "$i" \
       -V "date:$date"
