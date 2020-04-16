@@ -1,13 +1,13 @@
 #!/bin/sh
 
 die() {
-    printf "$(basename "$0"): %s\n" "$@" 1>&2
+    printf "${0##*/}: %s\n" "$@" 1>&2
     exit 1
 }
 
 tmp="$(mktemp -d "${TMPDIR:-/tmp}/pandoc-rss.XXXXXXXX")"
 
-printf '%s\n' '$meta-json$' > "$tmp/template.json"
+printf '%s\n' '$date$' > "$tmp/template.date"
 
 cat > "$tmp/template.xml" <<'EOF'
 <item>
@@ -28,7 +28,7 @@ while :; do
         shift 2
         ;;
     -h|--help)
-        die 'Usage: pandoc-rss -f FORMAT FILE [FILE ...]'
+        die "Usage: ${0##*/} -f FORMAT FILE [FILE ...]"
         ;;
     --)
         shift
@@ -46,10 +46,9 @@ done
 [ -n "$format" ] || die 'Please specify a format string.'
 
 for i in "$@"; do
-    date="$(pandoc --template="$tmp/template.json" "$i" | jq -r .date)"
+    date="$(pandoc --template="$tmp/template.date" "$i")"
     date="$(date -u -d "$date" '+%a, %d %b %Y %T UTC')"
-    basename="$(basename "$i" | sed 's/\.\w\+$//')"
-    linkprefix="$(printf "$format" "$basename")"
+    linkprefix="$(printf "$format" "$(basename "${i%.*}")")"
     pandoc --template="$tmp/template.xml" \
       -V "linkprefix:$linkprefix" "$i" \
       -V "date:$date"
