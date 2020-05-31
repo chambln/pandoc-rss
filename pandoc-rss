@@ -45,12 +45,12 @@ done
 
 [ -n "$format" ] || die 'Please specify a format string.'
 
-for i in "$@"; do
-    date="$(pandoc --template="$tmp/template.date" "$i")"
+for arg; do
+    date="$(pandoc --template="$tmp/template.date" "$arg")"
     date="$(date -u -d "$date" '+%a, %d %b %Y %T UTC')"
     linkprefix="$(printf "$format" "$(basename "${i%.*}")")"
     pandoc --template="$tmp/template.xml" \
-      -V "linkprefix:$linkprefix" "$i" \
+      -V "linkprefix:$linkprefix" "$arg" \
       -V "date:$date"
 done
 
