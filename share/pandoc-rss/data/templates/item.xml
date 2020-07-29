@@ -1,0 +1,20 @@
+<item>
+$if(pagetitle)$
+<title>$pagetitle$</title>
+$endif$
+$if(date)$
+<pubDate>$date$</pubDate>
+$endif$
+<description>
+<![CDATA[
+$if(subtitle)$
+<p>
+Subtitle: $subtitle$
+</p>
+$endif$
+
+$body$
+]]>
+</description>
+</item>
+
