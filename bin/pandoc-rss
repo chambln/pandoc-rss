@@ -5,25 +5,6 @@ die() {
     exit "${2:-1}"
 }
 
-TMPDIR=${TMPDIR:-/tmp}
-mkdir -p "$TMPDIR"
-tmp="$(mktemp -d "$TMPDIR/pandoc-rss.XXXXXXXX")"
-[ -n "$tmp" ] || die 'Failed to create temporary directory.'
-
-printf '$date$\n' > "$tmp/template.date"
-
-cat > "$tmp/item.xml" <<'EOF'
-<item>
-<title>$title$</title>
-<link>$linkprefix$</link>
-<guid>$linkprefix$</guid>
-$if(description)$
-<description>$description$</description>
-$endif$
-<pubDate>$date$</pubDate>
-</item>
-EOF
-
 while :; do
     case "$1" in
     -f|--format)
@@ -48,17 +29,17 @@ done
 
 [ -n "$format" ] || die 'Please specify a format string.'
 
+data_dir=${0%/*}/../share/pandoc-rss/data
+
 for markup_file do
-    date="$(pandoc --template="$tmp/template.date" "$markup_file")"
+    date="$(pandoc --template="$data_dir/date.variable" "$markup_file")"
     date="$(date -u -d "$date" '+%a, %d %b %Y %T +0000')"
     filename=${markup_file##*/}
     basename=${filename%.*}
     linkprefix="$(printf "$format" "$basename")"
     pandoc \
-      --template="$tmp/item.xml" \
+      --template="$data_dir/item.xml" \
       -V "date:$date" \
       -V "linkprefix:$linkprefix" \
       "$markup_file"
 done
-
-rm -rf "$tmp"

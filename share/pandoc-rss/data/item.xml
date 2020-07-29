@@ -1,0 +1,9 @@
+<item>
+$if(title)$
+<title>$title$</title>
+$endif$
+<description>
+$body$
+</description>
+</item>
+
