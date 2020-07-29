@@ -16,7 +16,6 @@ website](https://cosine.blue/).
   - GNU coreutils date(1) — to interpret and reformat dates
     [correctly](https://www.rssboard.org/rss-profile#data-types-datetime)
   - pandoc(1)
-  - jq(1) — to extract date metadata from Pandoc’s `$meta-json$` output.
 
 ## Usage
 

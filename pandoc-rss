@@ -1,15 +1,18 @@
 #!/bin/sh
 
 die() {
-    printf "${0##*/}: %s\n" "$@" 1>&2
-    exit 1
+    >&2 printf '%s: %s\n' "${0##*/}" "$1"
+    exit "${2:-1}"
 }
 
-tmp="$(mktemp -d "${TMPDIR:-/tmp}/pandoc-rss.XXXXXXXX")"
+TMPDIR=${TMPDIR:-/tmp}
+mkdir -p "$TMPDIR"
+tmp="$(mktemp -d "$TMPDIR/pandoc-rss.XXXXXXXX")"
+[ -n "$tmp" ] || die 'Failed to create temporary directory.'
 
-printf '%s\n' '$date$' > "$tmp/template.date"
+printf '$date$\n' > "$tmp/template.date"
 
-cat > "$tmp/template.xml" <<'EOF'
+cat > "$tmp/item.xml" <<'EOF'
 <item>
 <title>$title$</title>
 <link>$linkprefix$</link>
@@ -45,13 +48,17 @@ done
 
 [ -n "$format" ] || die 'Please specify a format string.'
 
-for arg; do
-    date="$(pandoc --template="$tmp/template.date" "$arg")"
-    date="$(date -u -d "$date" '+%a, %d %b %Y %T UTC')"
-    linkprefix="$(printf "$format" "$(basename "${i%.*}")")"
-    pandoc --template="$tmp/template.xml" \
-      -V "linkprefix:$linkprefix" "$arg" \
-      -V "date:$date"
+for markup_file do
+    date="$(pandoc --template="$tmp/template.date" "$markup_file")"
+    date="$(date -u -d "$date" '+%a, %d %b %Y %T +0000')"
+    filename=${markup_file##*/}
+    basename=${filename%.*}
+    linkprefix="$(printf "$format" "$basename")"
+    pandoc \
+      --template="$tmp/item.xml" \
+      -V "date:$date" \
+      -V "linkprefix:$linkprefix" \
+      "$markup_file"
 done
 
-rm -r "$tmp"
+rm -rf "$tmp"
