@@ -12,7 +12,9 @@ website](https://cosine.blue/).
 
 ## Dependencies
 
-  - GNU coreutils date(1)
+  - POSIX sh
+  - GNU coreutils date(1) — to interpret and reformat dates
+    [correctly](https://www.rssboard.org/rss-profile#data-types-datetime)
   - pandoc(1)
   - jq(1) — to extract date metadata from Pandoc’s `$meta-json$` output.
 
@@ -65,7 +67,7 @@ Construct your feed like so:
 
 ```sh
 $ cp rss-before.xml rss.xml
-$ pandoc-rss -f 'https://example.org/articles/%s.html' *.md >> rss.xml
+$ pandoc-rss -f 'https://example.org/articles/%s.html' ./*.md >> rss.xml
 $ cat rss-after.xml >> rss.xml
 ```
 
@@ -96,21 +98,6 @@ $ cat rss.xml
 </item>
 </channel>
 </rss>
-```
-
-Here’s how I set it up in the
-[makefile](https://github.com/chambln/chambln.github.io/blob/master/Makefile)
-for [my website](https://cosine.blue):
-
-``` makefile
-src_posts := $(shell ls src/posts/*.md | sort -r)
-
-⋮
-
-rss.xml: $(src_posts)
-    cp src/include/rss-before.xml $@
-    pandoc-rss -f 'https://cosine.blue/%s.html' $^ >> $@
-    cat src/include/rss-after.xml >> $@
 ```
 
 ## Bugs and notes
