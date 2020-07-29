@@ -6,9 +6,7 @@ files. You can use it to create an RSS feed from a series of files that
 Pandoc can read metadata from, such as ReST or Pandoc-flavoured
 Markdown.
 
-I wrote it to be used with tools such as the [static site
-generator](https://github.com/chambln/red/) that I use to generate [my
-website](https://cosine.blue/).
+**Note:** This is alpha software and there may be breaking changes.
 
 ## Dependencies
 
