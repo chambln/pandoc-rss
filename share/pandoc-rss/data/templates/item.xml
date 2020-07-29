@@ -5,16 +5,11 @@ $endif$
 $if(date)$
 <pubDate>$date$</pubDate>
 $endif$
-<description>
-<![CDATA[
-$if(subtitle)$
-<p>
-Subtitle: $subtitle$
-</p>
+$if(permalink)$
+<guid isPermaLink="true">$permalink$</guid>
 $endif$
-
-$body$
-]]>
+<description>
+<![CDATA[$body$]]>
 </description>
 </item>
 

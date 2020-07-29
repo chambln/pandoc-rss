@@ -1,45 +1,54 @@
 #!/bin/sh
 
-die() {
-    >&2 printf '%s: %s\n' "${0##*/}" "$1"
-    exit "${2:-1}"
+usage ()
+{
+    >&2 printf 'Usage: %s [OPTIONS] FILE...\n' "${0##*/}"
 }
 
-while :; do
+generate_feed_item ()
+{
+    input_file=$1
+    shift
+    if [ -n "${permalink_format-}" ]
+    then
+	filename=${input_file##*/}
+	basename=${filename%.*}
+	permalink=$(printf "$permalink_format" "$basename")
+	set -- -V "permalink:$permalink" "$@"
+    fi
+    pandoc --template="$share/data/templates/item.xml" "$@" "$input_file"
+}
+
+while true
+do
     case "$1" in
-    -f|--format)
-        format="$2"
-        shift 2
-        ;;
+    -f|--permalink-format)
+	permalink_format=${2-}
+	case $permalink_format in
+	    *%s*) ;;
+	    *) >&2 echo 'Permalink format must contain ‘%s’'; exit 1
+	esac
+	shift 2
+	;;
     -h|--help)
-        die "Usage: ${0##*/} -f FORMAT FILE [FILE ...]"
-        ;;
+	usage
+	exit
+	;;
     --)
-        shift
-        break
-        ;;
+	shift
+	break
+	;;
     -*)
-        die "No such option ‘$1’"
-        ;;
+	>&2 printf 'No such option ‘%s’' "$1"
+	exit 1
+	;;
     *)
-        break
-        ;;
+	break
     esac
 done
 
-[ -n "$format" ] || die 'Please specify a format string.'
+share=${0%/*}/../share/pandoc-rss
 
-data_dir=${0%/*}/../share/pandoc-rss/data
-
-for markup_file do
-    date="$(pandoc --template="$data_dir/date.variable" "$markup_file")"
-    date="$(date -u -d "$date" '+%a, %d %b %Y %T +0000')"
-    filename=${markup_file##*/}
-    basename=${filename%.*}
-    linkprefix="$(printf "$format" "$basename")"
-    pandoc \
-      --template="$data_dir/item.xml" \
-      -V "date:$date" \
-      -V "linkprefix:$linkprefix" \
-      "$markup_file"
+for input_file do
+    generate_feed_item "$input_file"
 done
