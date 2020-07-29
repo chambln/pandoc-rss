@@ -2,8 +2,13 @@
 $if(title)$
 <title>$title$</title>
 $endif$
+$if(date)$
+<pubDate>$date$</pubDate>
+$endif$
 <description>
+<![CDATA[
 $body$
+]]>
 </description>
 </item>
 
