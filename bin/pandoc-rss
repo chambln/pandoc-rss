@@ -5,18 +5,56 @@ usage ()
     >&2 printf 'Usage: %s [OPTIONS] FILE...\n' "${0##*/}"
 }
 
+get_metadata_value ()
+{
+    key=$1
+    shift
+    pandoc --template="$templates_dir/$key.value" "$@"
+}
+
+# Turns a filename into a permalink.
+# e.g. permalink_format=http://example.net/%s.html
+#      input_file=path/to/fox-in-socks.md
+#   => http://example.net/fox-in-socks.html
+get_permalink ()
+{
+    if [ -z "${permalink_format-}" ]
+    then
+	return 1
+    fi
+    input_file=$1
+    shift
+    filename=${input_file##*/}
+    basename=${filename%.*}
+    permalink=$(printf "$permalink_format" "$basename")
+}
+
+get_date ()
+{
+    input_file=$1
+    shift
+    if date=$(get_metadata_value date "$input_file")
+    then
+	/usr/bin/date --utc --date "$date" +'%a, %d %b %Y %T +0000'
+    fi
+}
+
 generate_feed_item ()
 {
     input_file=$1
     shift
-    if [ -n "${permalink_format-}" ]
+
+    if permalink=$(get_permalink "$input_file")
     then
-	filename=${input_file##*/}
-	basename=${filename%.*}
-	permalink=$(printf "$permalink_format" "$basename")
-	set -- -V "permalink:$permalink" "$@"
+	set -- -V "permalink:$permalink"
     fi
-    pandoc --template="$share/data/templates/item.xml" "$@" "$input_file"
+
+    if date=$(get_date "$input_file")
+    then
+	set -- -V "date:$date"
+    fi
+    
+    pandoc --template="$templates_dir/item.xml" "$@" "$input_file"
 }
 
 while true
@@ -48,6 +86,7 @@ do
 done
 
 share=${0%/*}/../share/pandoc-rss
+templates_dir=$share/data/templates
 
 for input_file do
     generate_feed_item "$input_file"
