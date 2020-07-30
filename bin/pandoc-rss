@@ -1,5 +1,31 @@
 #!/bin/sh
 
+get_user_fullname_gecos ()
+{
+    while IFS=':' read -r user _ _ _ gecos _
+    do
+	if [ x"$user" = x"$LOGNAME" ]
+	then
+	    user_fullname="${gecos%%,*}"
+	    [ -n "$user_fullname" ] || exit 1
+	    printf %s\\n "$user_fullname"
+	    return 0
+	fi
+    done < /etc/passwd
+    return 1
+}
+
+get_user_fullname ()
+{
+    printf %s\\n "${NAME:-$(get_user_fullname_gecos)}"
+}
+
+get_webmaster ()
+{
+    [ -n "$EMAIL" ] || return 1
+    printf '%s (%s)\n' "$EMAIL" "$(get_user_fullname)"
+}
+
 get_metadata_value ()
 {
     key=$1
