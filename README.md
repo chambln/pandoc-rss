@@ -11,8 +11,8 @@ Markdown.
 ## Dependencies
 
   - POSIX sh
-  - GNU coreutils date(1) — to interpret and reformat dates
-    [correctly](https://www.rssboard.org/rss-profile#data-types-datetime)
+  - GNU coreutils date(1) — to interpret and reformat dates to conform with
+    [RSS Best Practices 3.2 Dates and Times](https://www.rssboard.org/rss-profile#data-types-datetime)
   - pandoc(1)
 
 ## Usage
