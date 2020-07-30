@@ -10,4 +10,3 @@ $if(permalink)$
 $endif$
 <description><![CDATA[$body$]]></description>
 </item>
-

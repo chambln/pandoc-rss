@@ -9,4 +9,3 @@ $if(permalink)$
 <guid isPermaLink="true">$permalink$</guid>
 $endif$
 </item>
-

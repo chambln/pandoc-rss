@@ -12,4 +12,3 @@ $if(description)$
 <description><![CDATA[$description$]]></description>
 $endif$
 </item>
-
