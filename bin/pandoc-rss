@@ -80,13 +80,39 @@ generate_feed_item ()
     pandoc --template="$item_template" "$@" "$input_file"
 }
 
+generate_feed_items ()
+{
+    for input_file do
+	generate_feed_item "$input_file"
+    done
+}
+
+print_xml_element ()
+{
+    [ -n "$2" ] || return 1
+    printf '<%s>%s</%s>\n' "$1" "$2" "$1"
+}
+
+generate_standalone_feed ()
+{
+    echo '<?xml version="1.0" encoding="UTF-8" ?>'
+    echo '<rss version="2.0">'
+    echo '<channel>'
+    print_xml_element title "$channel_title"
+    print_xml_element link "$channel_link"
+    print_xml_element description "$channel_description"
+    generate_feed_items "$@"
+    echo '</channel>'
+    echo '</rss>'
+}
+
 description_source=body
 guid_is_perma_link=true
-while getopts d:g:ph name
+standalone=false
+while getopts d:g:psh name
 do
     case "$name" in
-    d)
-	description_source=$OPTARG
+    d)  description_source=$OPTARG
 	case $description_source in
 	body|description|subtitle|abstract|none) ;;
         *)
@@ -94,12 +120,9 @@ do
 	    exit 1
 	esac
 	;;
-    g)
-	guid_format=$OPTARG
-	;;
-    p)
-	guid_is_perma_link=false
-	;;
+    g)  guid_format=$OPTARG ;;
+    p)  guid_is_perma_link=false ;;
+    s)  standalone=true ;;
     h)
 	>&2 printf 'Usage: %s [OPTIONS] [FILE]...\n' "${0##*/}"
 	exit
@@ -112,6 +135,9 @@ templates_dir=$share/data/templates
 
 item_template="$templates_dir/item-with-${description_source}.xml"
 
-for input_file do
-    generate_feed_item "$input_file"
-done
+if $standalone
+then
+    generate_standalone_feed "$@"
+else
+    generate_feed_items "$@"
+fi
