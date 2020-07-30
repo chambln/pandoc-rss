@@ -40,7 +40,7 @@ in a format that will be correctly interpretted by GNU date(1).
     of the description element. Use either CDATA encoding or escape
     `<` and `>` using HTML character entities `&lt;` and `&gt;`.
 
-    - [ ] It is the author's opinion that this should be default
+    - [x] It is the author's opinion that this should be default
       behaviour, but let's include an option not to do this
       since the spec considers this "a decision entirely at
       the discretion of the publisher" ([RSS Best Practices Profile
