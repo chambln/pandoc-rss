@@ -1,10 +1,5 @@
 #!/bin/sh
 
-usage ()
-{
-    >&2 printf 'Usage: %s [OPTIONS] [FILE]...\n' "${0##*/}"
-}
-
 get_metadata_value ()
 {
     key=$1
@@ -12,13 +7,13 @@ get_metadata_value ()
     pandoc --template="$templates_dir/$key.value" "$@"
 }
 
-# Turns a filename into a permalink.
-# e.g. permalink_format=http://example.net/%s.html
+# Print the guid element for an input_file.
+# e.g. guid_format=http://example.net/%s.html
 #      input_file=path/to/fox-in-socks.md
 #   => http://example.net/fox-in-socks.html
-get_permalink ()
+get_guid ()
 {
-    if [ -z "${permalink_format-}" ]
+    if [ -z "${guid_format-}" ]
     then
 	return 1
     fi
@@ -26,7 +21,7 @@ get_permalink ()
     shift
     filename=${input_file##*/}
     basename=${filename%.*}
-    printf "$permalink_format" "$basename"
+    printf "$guid_format" "$basename"
 }
 
 get_date ()
@@ -44,9 +39,14 @@ generate_feed_item ()
     input_file=$1
     shift
 
-    if permalink=$(get_permalink "$input_file")
+    if guid=$(get_guid "$input_file")
     then
-	set -- -V "permalink:$permalink" "$@"
+	if $guid_is_perma_link
+	then
+	    set -- -V "guid:<guid isPermaLink=\"true\">$guid</guid>" "$@"
+	else
+	    set -- -V "guid:<guid isPermaLink=\"false\">$guid</guid>" "$@"
+	fi
     fi
 
     if date=$(get_date "$input_file")
@@ -57,39 +57,37 @@ generate_feed_item ()
     pandoc --template="$item_template" "$@" "$input_file"
 }
 
-while true
+description_source=body
+guid_is_perma_link=true
+while getopts d:g:ph name
 do
-    case "$1" in
-    -d|--description-source)
-	description_source=${2-}
+    case "$name" in
+    d)
+	description_source=$OPTARG
 	case $description_source in
 	body|description|subtitle|abstract|none) ;;
         *) >&2 printf 'Invalid description source ‘%s’\n' "$description_source"
 	   >&2 echo 'Valid sources: body, description, subtitle, abstract, none'
 	   exit 1
 	esac
-	shift 2
 	;;
-    -p|--permalink-format)
-	permalink_format=${2-}
-	case $permalink_format in
-	    *%s*) ;;
-	    *) >&2 echo 'Permalink format string must contain ‘%s’'
-	       exit 1
-	esac
-	shift 2
+    g)
+	guid_format=$OPTARG
 	;;
-    -h|--help)  usage; exit ;;
-    --)         shift; break ;;
-    -*)         >&2 printf 'No such option ‘%s’\n' "$1"; exit 1 ;;
-    *)          break
+    p)
+	guid_is_perma_link=false
+	;;
+    h)
+	>&2 printf 'Usage: %s [OPTIONS] [FILE]...\n' "${0##*/}"
+	exit
     esac
 done
+shift $((OPTIND - 1))
 
 share=${0%/*}/../share/${0##*/}
 templates_dir=$share/data/templates
 
-item_template="$templates_dir/item-with-${description_source-body}.xml"
+item_template="$templates_dir/item-with-${description_source}.xml"
 
 for input_file do
     generate_feed_item "$input_file"
