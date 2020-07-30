@@ -1,0 +1,12 @@
+<item>
+$if(pagetitle)$
+<title>$pagetitle$</title>
+$endif$
+$if(date)$
+<pubDate>$date$</pubDate>
+$endif$
+$if(permalink)$
+<guid isPermaLink="true">$permalink$</guid>
+$endif$
+</item>
+

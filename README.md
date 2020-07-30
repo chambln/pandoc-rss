@@ -20,7 +20,7 @@ Markdown.
 General usage is
 
 ``` bash
-pandoc-rss [OPTIONS] [FILE...]
+pandoc-rss [OPTIONS] [FILE]...
 ```
 
 In the metadata of each of your source markup files (i.e. YAML block
