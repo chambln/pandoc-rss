@@ -36,25 +36,25 @@ in a format that will be correctly interpretted by GNU date(1).
 
   - [ ] Write a man page
 
-  - [ ] For each item element, include the rendered HTML as the content
+  - [x] For each item element, include the rendered HTML as the content
     of the description element. Use either CDATA encoding or escape
     `<` and `>` using HTML character entities `&lt;` and `&gt;`.
 
-    It is the author's opinion that this should be default
-    behaviour, but let's include an option not to do this
-    since the spec considers this "a decision entirely at
-    the discretion of the publisher" ([RSS Best Practices Profile
-    4.1.1.20.4](https://www.rssboard.org/rss-profile#element-channel-item-description)).
-    Alternatives are:
+    - [ ] It is the author's opinion that this should be default
+      behaviour, but let's include an option not to do this
+      since the spec considers this "a decision entirely at
+      the discretion of the publisher" ([RSS Best Practices Profile
+      4.1.1.20.4](https://www.rssboard.org/rss-profile#element-channel-item-description)).
+      Alternatives are:
+      
+      - Use the `description` metadata variables as the description element
+      - Use the `subtitle` metadata variables as the description element
+      - Use the `abstract` metadata variables as the description element
+      - Omit the description element altogether, making the title
+        element required
 
-    - Use the `description` metadata variables as the description element
-    - Use the `subtitle` metadata variables as the description element
-    - Use the `abstract` metadata variables as the description element
-    - Omit the description element altogether, making the title
-      element required
-
-    See [Metadata
-    variables](https://pandoc.org/MANUAL.html#metadata-variables).
+      See [Metadata
+      variables](https://pandoc.org/MANUAL.html#metadata-variables).
 
   - [ ] Print warnings about relative links in the description
     element.
