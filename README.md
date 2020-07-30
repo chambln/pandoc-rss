@@ -47,9 +47,9 @@ in a format that will be correctly interpretted by GNU date(1).
       4.1.1.20.4](https://www.rssboard.org/rss-profile#element-channel-item-description)).
       Alternatives are:
       
-      - Use the `description` metadata variables as the description element
-      - Use the `subtitle` metadata variables as the description element
-      - Use the `abstract` metadata variables as the description element
+      - Use the `description` metadata variable as the description element
+      - Use the `subtitle` metadata variable as the description element
+      - Use the `abstract` metadata variable as the description element
       - Omit the description element altogether, making the title
         element required
 
