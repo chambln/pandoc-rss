@@ -64,7 +64,7 @@ do
 	permalink_format=${2-}
 	case $permalink_format in
 	    *%s*) ;;
-	    *) >&2 echo 'Permalink format must contain ‘%s’'; exit 1
+	    *) >&2 echo 'Permalink format string must contain ‘%s’'; exit 1
 	esac
 	shift 2
 	;;
