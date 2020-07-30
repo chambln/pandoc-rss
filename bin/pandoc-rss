@@ -30,7 +30,9 @@ get_metadata_value ()
 {
     key=$1
     shift
-    pandoc --template="$templates_dir/$key.value" "$@"
+    value=$(pandoc --template="$templates_dir/$key.value" "$@")
+    [ -n "$value" ] || return 1
+    printf %s\\n "$value"
 }
 
 # Print the guid element for an input_file.
