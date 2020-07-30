@@ -96,7 +96,7 @@ do
     esac
 done
 
-share=${0%/*}/../share/pandoc-rss
+share=${0%/*}/../share/${0##*/}
 templates_dir=$share/data/templates
 
 item_template="$templates_dir/item-with-${description_source-body}.xml"

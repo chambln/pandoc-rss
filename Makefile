@@ -1,13 +1,18 @@
-PROG = pandoc-rss
 PREFIX = /usr/local
 BIN = $(PREFIX)/bin
-INSTALL = install
+SHARE = $(PREFIX)/share
+PROGRAM = pandoc-rss
 
-all: README.md
+all:
+	chmod +x bin/*
 
-install: $(PROG)
-	$(INSTALL) -d $(BIN)
-	$(INSTALL) -m 0755 $(PROG) $(BIN)
+install: bin/$(PROGRAM)
+	mkdir -p $(BIN)
+	cp -f bin/$(PROGRAM) $(BIN)
+	chmod 775 $(BIN)/$(PROGRAM)
+
+	mkdir -p $(SHARE)
+	cp -fr share/$(PROGRAM) $(SHARE)
 
 uninstall:
-	@rm -fv $(BIN)/$(PROG)
+	rm -f $(BIN)/$(PROGRAM)
