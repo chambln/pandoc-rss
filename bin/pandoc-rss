@@ -13,10 +13,7 @@ get_metadata_value ()
 #   => http://example.net/fox-in-socks.html
 get_guid ()
 {
-    if [ -z "${guid_format-}" ]
-    then
-	return 1
-    fi
+    [ -n "${guid_format-}" ] || return 1
     input_file=$1
     shift
     filename=${input_file##*/}
@@ -66,9 +63,9 @@ do
 	description_source=$OPTARG
 	case $description_source in
 	body|description|subtitle|abstract|none) ;;
-        *) >&2 printf 'Invalid description source ‘%s’\n' "$description_source"
-	   >&2 echo 'Valid sources: body, description, subtitle, abstract, none'
-	   exit 1
+        *)
+	    >&2 printf 'Invalid arg ‘%s’ for -%s option\n' "$OPTARG" "$name"
+	    exit 1
 	esac
 	;;
     g)
