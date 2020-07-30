@@ -104,6 +104,8 @@ $ cat rss.xml
 
 ## To-do
 
+  - [ ] Write a man page
+
   - [ ] For each item element, include the rendered HTML as the content
     of the description element. Use either CDATA encoding or escape
     `<` and `>` using HTML character entities `&lt;` and `&gt;`.
@@ -124,5 +126,5 @@ $ cat rss.xml
     See [Metadata
     variables](https://pandoc.org/MANUAL.html#metadata-variables).
 
-      - [ ] Print warnings about relative links in the description
-        element.
+  - [ ] Print warnings about relative links in the description
+    element.
