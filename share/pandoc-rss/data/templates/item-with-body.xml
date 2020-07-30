@@ -8,8 +8,6 @@ $endif$
 $if(permalink)$
 <guid isPermaLink="true">$permalink$</guid>
 $endif$
-<description>
-<![CDATA[$body$]]>
-</description>
+<description><![CDATA[$body$]]></description>
 </item>
 
