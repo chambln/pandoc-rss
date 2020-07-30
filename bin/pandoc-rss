@@ -79,20 +79,10 @@ do
 	esac
 	shift 2
 	;;
-    -h|--help)
-	usage
-	exit
-	;;
-    --)
-	shift
-	break
-	;;
-    -*)
-	>&2 printf 'No such option ‘%s’\n' "$1"
-	exit 1
-	;;
-    *)
-	break
+    -h|--help)  usage; exit ;;
+    --)         shift; break ;;
+    -*)         >&2 printf 'No such option ‘%s’\n' "$1"; exit 1 ;;
+    *)          break
     esac
 done
 
