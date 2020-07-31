@@ -1,21 +1,26 @@
 .TH PANDOC\-RSS 1 "July 2020"
 .SH NAME
-pandoc\-rss \- Generate an RSS feed using Pandoc
+pandoc\-rss \- Feed generator
 .SH SYNOPSIS
 .PP
-pandoc\-rss [\f[I]options\f[]] [\f[I]input\-file\f[]]...
+\f[B]pandoc\-rss\f[R] [\f[I]options\f[R]] [\f[I]input\-file\f[R]]...
 .PP
-pandoc\-rss \-s [\f[I]options\f[]] [\f[I]input\-file\f[]]... > feed.xml
+\f[B]pandoc\-rss \-s\f[R] [\f[I]options\f[R]]
+[\f[I]input\-file\f[R]]... \f[B]>\f[R] \f[I]feed.xml\f[R]
 .SH DESCRIPTION
 .PP
 The
 .B pandoc\-rss
 utility can be used to generate an RSS feed from a series of input
-files.  Each \f[I]input\-file\f[] corresponds to a feed item, and must
+files.  Each \f[I]input\-file\f[R] corresponds to a feed item, and must
 be written in a markup language that can be read by Pandoc.
 .SH OPTIONS
 .TP
-\-g \f[I]FORMAT\f[]
+\-s
+Produce a standalone XML file that represents an entire feed.
+(By default, only item fragments are produced.)
+.TP
+\-g \f[I]FORMAT\f[R]
 Include guid elements. The printf\-style
 .I FORMAT
 string should contain exactly one \[oq]%s\[cq] which will be
@@ -25,13 +30,15 @@ stripped of its extension.
 .IP
 For example, if
 .I FORMAT
-is \f[C]http://example.net/%s.html\f[], then an
-\f[I]input\-file\f[] named \[oq]foo.md\[cq] will have a guid
-element containing \[oq]http://example.net/foo.html\[cq].
+is \f[C]http://example.net/%s.html\f[R], then an \f[I]input\-file\f[R]
+named \[oq]foo.md\[cq] will have a guid element containing
+\[oq]http://example.net/foo.html\[cq].
 .TP
-\-s
-Produce a standalone XML file that represents an entire feed.
-(By default, only item fragements are produced.)
+\-p
+Set \f[C]isPermaLink="false"\f[R] for all guid elements.
+.TP
+\-h
+Print help message.
 .SH EXIT STATUS
 .SH ENVIRONMENT
 .SH NOTES
@@ -45,3 +52,9 @@ pandoc\-rss \-sg http://example.net/%s.html foo.md bar.md
 .fi
 .SH AUTHORS
 .SH SEE ALSO
+.PP
+\f[B]pandoc\f[R](1),
+\f[B]date\f[R](1)
+.PP
+.UL
+https://rssboard.org/rss-profile
