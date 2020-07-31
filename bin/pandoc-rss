@@ -110,6 +110,7 @@ standalone=false
 while getopts D:L:T:d:g:hps name
 do
     case "$name" in
+    S)  standalone=true ;;
     D)  channel_description=$OPTARG ;;
     L)  channel_link=$OPTARG ;;
     T)  channel_title=$OPTARG ;;
@@ -124,7 +125,6 @@ do
     g)  guid_format=$OPTARG ;;
     h)  >&2 printf 'Usage: %s [OPTIONS] [FILE]...\n' "${0##*/}"; exit ;;
     p)  guid_is_perma_link=false ;;
-    s)  standalone=true ;;
     esac
 done
 shift $((OPTIND - 1))

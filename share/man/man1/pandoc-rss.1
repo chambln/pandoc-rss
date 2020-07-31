@@ -5,7 +5,7 @@ pandoc\-rss \- Feed generator
 .PP
 \f[B]pandoc\-rss\f[R] [\f[I]options\f[R]] [\f[I]input\-file\f[R]]...
 .PP
-\f[B]pandoc\-rss \-s\f[R] [\f[I]options\f[R]]
+\f[B]pandoc\-rss \-S\f[R] [\f[I]options\f[R]]
 [\f[I]input\-file\f[R]]... \f[B]>\f[R] \f[I]feed.xml\f[R]
 .SH DESCRIPTION
 .PP
@@ -16,7 +16,7 @@ files.  Each \f[I]input\-file\f[R] corresponds to a feed item, and must
 be written in a markup language that can be read by Pandoc.
 .SH OPTIONS
 .TP
-\-s
+\-S
 Produce a standalone XML file that represents an entire feed.
 (Without this, only item fragments are produced.)
 .TP
@@ -49,7 +49,7 @@ Print help message.
 .IP
 .nf
 \f[C]
-pandoc\-rss \-sg http://example.net/%s.html foo.md bar.md
+pandoc\-rss \-Sg http://example.net/%s.html foo.md bar.md
 \f[R]
 .fi
 .SH AUTHORS
