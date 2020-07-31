@@ -107,9 +107,12 @@ generate_standalone_feed ()
 description_source=body
 guid_is_perma_link=true
 standalone=false
-while getopts d:g:hps name
+while getopts D:L:T:d:g:hps name
 do
     case "$name" in
+    D)  channel_description=$OPTARG ;;
+    L)  channel_link=$OPTARG ;;
+    T)  channel_title=$OPTARG ;;
     d)  description_source=$OPTARG
 	case $description_source in
 	body|description|subtitle|abstract|none) ;;
