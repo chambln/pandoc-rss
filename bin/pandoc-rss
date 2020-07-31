@@ -66,12 +66,8 @@ generate_feed_item ()
 
     if guid=$(get_guid "$input_file")
     then
-	if $guid_is_perma_link
-	then
-	    set -- -V "guid:<guid isPermaLink=\"true\">$guid</guid>" "$@"
-	else
-	    set -- -V "guid:<guid isPermaLink=\"false\">$guid</guid>" "$@"
-	fi
+	attribute=" isPermLink=\"$guid_is_perma_link\""
+	set -- -V "guid:<guid${attribute-}>$guid</guid>" "$@"
     fi
 
     if date=$(get_date "$input_file")
@@ -111,7 +107,7 @@ generate_standalone_feed ()
 description_source=body
 guid_is_perma_link=true
 standalone=false
-while getopts d:g:psh name
+while getopts d:g:hps name
 do
     case "$name" in
     d)  description_source=$OPTARG
@@ -123,11 +119,9 @@ do
 	esac
 	;;
     g)  guid_format=$OPTARG ;;
+    h)  >&2 printf 'Usage: %s [OPTIONS] [FILE]...\n' "${0##*/}"; exit ;;
     p)  guid_is_perma_link=false ;;
     s)  standalone=true ;;
-    h)
-	>&2 printf 'Usage: %s [OPTIONS] [FILE]...\n' "${0##*/}"
-	exit
     esac
 done
 shift $((OPTIND - 1))
