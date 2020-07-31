@@ -39,6 +39,15 @@ named \[oq]foo.md\[cq] will have a guid element containing
 \-p
 Set \f[C]isPermaLink="false"\f[R] for all guid elements.
 .TP
+\-T TITLE
+Set the channel title.
+.TP
+\-L LINK
+Set the channel link.
+.TP
+\-T DESCRIPTION
+Set the channel description.
+.TP
 \-h
 Print help message.
 .SH EXIT STATUS
@@ -49,7 +58,12 @@ Print help message.
 .IP
 .nf
 \f[C]
-pandoc\-rss \-Sg http://example.net/%s.html foo.md bar.md
+pandoc\-rss \-S \e
+           \-T 'Example Feed' \e
+           \-L http://example.net \e
+           \-D 'An example RSS feed for illustrative purposes.' \e
+           \-g http://example.net/%s.html \e
+    foo.md bar.md > feed.xml
 \f[R]
 .fi
 .SH AUTHORS
