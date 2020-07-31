@@ -35,7 +35,8 @@ in a format that will be correctly interpretted by GNU date(1).
 ## To-do
 
   - [x] Add options for specifying channel title, link and description.
-  - [ ] Write a man page
+  - [ ] Finish writing the man page.
   - [ ] Add Makefile rule to install the man page
   - [ ] Print warnings about relative links in the description element.
   - [ ] Cite pandoc-rss as the generator element
+  - [ ] Add option to specify the channel language
