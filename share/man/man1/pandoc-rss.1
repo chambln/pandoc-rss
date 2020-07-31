@@ -20,6 +20,15 @@ be written in a markup language that can be read by Pandoc.
 Produce a standalone XML file that represents an entire feed.
 (Without this, only item fragments are produced.)
 .TP
+\-T TITLE
+Set the channel title.
+.TP
+\-L LINK
+Set the channel link.
+.TP
+\-T DESCRIPTION
+Set the channel description.
+.TP
 \-g \f[I]FORMAT\f[R]
 Include guid elements.
 .IP
@@ -38,15 +47,6 @@ named \[oq]foo.md\[cq] will have a guid element containing
 .TP
 \-p
 Set \f[C]isPermaLink="false"\f[R] for all guid elements.
-.TP
-\-T TITLE
-Set the channel title.
-.TP
-\-L LINK
-Set the channel link.
-.TP
-\-T DESCRIPTION
-Set the channel description.
 .TP
 \-h
 Print help message.
