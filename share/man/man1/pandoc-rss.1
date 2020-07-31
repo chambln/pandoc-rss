@@ -15,10 +15,6 @@ files.  Each \f[I]input\-file\f[] corresponds to a feed item, and must
 be written in a markup language that can be read by Pandoc.
 .SH OPTIONS
 .TP
-\-s
-Produce a standalone XML file that represents an entire feed.
-(By default, only item fragements are produced.)
-.TP
 \-g \f[I]FORMAT\f[]
 Include guid elements. The printf\-style
 .I FORMAT
@@ -32,6 +28,10 @@ For example, if
 is \f[C]http://example.net/%s.html\f[], then an
 \f[I]input\-file\f[] named \[oq]foo.md\[cq] will have a guid
 element containing \[oq]http://example.net/foo.html\[cq].
+.TP
+\-s
+Produce a standalone XML file that represents an entire feed.
+(By default, only item fragements are produced.)
 .SH EXIT STATUS
 .SH ENVIRONMENT
 .SH NOTES
