@@ -99,6 +99,7 @@ generate_standalone_feed ()
     print_xml_element title "$channel_title"
     print_xml_element link "$channel_link"
     print_xml_element description "$channel_description"
+    echo '<generator>Pandoc RSS</generator>'
     generate_feed_items "$@"
     echo '</channel>'
     echo '</rss>'
