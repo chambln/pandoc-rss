@@ -11,14 +11,19 @@ pandoc\-rss \- Feed generator
 .PP
 The
 .B pandoc\-rss
-utility can be used to generate an RSS feed from a series of input
-files.  Each \f[I]input\-file\f[R] corresponds to a feed item, and must
-be written in a markup language that can be read by Pandoc.
+utility generates an RSS feed from a series of input files.  Each
+\f[I]input\-file\f[R] corresponds to a feed item, and must be written
+in a markup language that can be read by Pandoc.
+.PP
+GNU \f[B]date\f[R](1) is used to transform dates to conform with RSS
+best practices. Therefore, the date metadata of each
+\f[I]input\-file\f[R] must be written in a form that will be
+interpretted correctly by GNU date.
 .SH OPTIONS
 .TP
 \-S
 Produce a standalone XML file that represents an entire feed.
-(Without this, only item fragments are produced.)
+(Without this, only item elements are produced.)
 .TP
 \-T \f[I]title\f[R]
 Set the channel title.
@@ -48,8 +53,26 @@ named \[oq]foo.md\[cq] will have a guid element containing
 \-p
 Set \f[C]isPermaLink="false"\f[R] for all guid elements.
 .TP
+\-d [\f[B]body\f[R]|\f[B]description\f[R]|\f[B]subtitle\f[R]|\f[B]abstract\f[R]|\f[B]none\f[R]]
+Determines the content of the description element for every item.
+.RS
+.TP
+.B body
+The full content of the \f[I]input-file\f[R] rendered as HTML using
+Pandoc.
+.IP
+This way, people can read the entire document offline and within their
+feed reader.
+.TP
+\f[B]description\f[R], \f[B]subtitle\f[R], \f[B]abstract\f[R]
+The corresponding value from the \f[I]input\-file\f[R]\[cq]s metadata block.
+.TP
+.B none
+Omit the description element altogether.
+.RE
+.TP
 \-h
-Print help message.
+Print a help message.
 .SH EXIT STATUS
 .SH ENVIRONMENT
 .SH NOTES
