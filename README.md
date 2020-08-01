@@ -17,15 +17,7 @@ Markdown.
 
 ## Usage
 
-General usage is
-
-``` bash
-pandoc-rss [OPTIONS] [FILE]...
-```
-
-In the metadata of each of your source markup files (i.e. YAML block
-for markdown), make sure the value of the `date` variable is written
-in a format that will be correctly interpretted by GNU date(1).
+See pandoc-rss(1).
 
 ## Bugs and notes
 
