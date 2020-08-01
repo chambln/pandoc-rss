@@ -21,20 +21,24 @@ best practices. Therefore, the date metadata of each
 interpretted correctly by GNU date.
 .SH OPTIONS
 .TP
-\-S
+.B \-S
 Produce a standalone XML file that represents an entire feed.
 (Without this, only item elements are produced.)
 .TP
-\-T \f[I]title\f[R]
+.B \-T
+\f[I]title\f[R]
 Set the channel title.
 .TP
-\-L \f[I]link\f[R]
+.B \-L
+\f[I]link\f[R]
 Set the channel link.
 .TP
-\-T \f[I]description\f[R]
+.B \-D
+\f[I]description\f[R]
 Set the channel description.
 .TP
-\-g \f[I]format\f[R]
+.B \-g
+\f[I]format\f[R]
 Include guid elements.
 .IP
 The printf\-style
@@ -50,10 +54,11 @@ is \f[C]http://example.net/%s.html\f[R], then an \f[I]input\-file\f[R]
 named \[oq]foo.md\[cq] will have a guid element containing
 \[oq]http://example.net/foo.html\[cq].
 .TP
-\-p
+.B \-p
 Set \f[C]isPermaLink="false"\f[R] for all guid elements.
 .TP
-\-d [\f[B]body\f[R]|\f[B]description\f[R]|\f[B]subtitle\f[R]|\f[B]abstract\f[R]|\f[B]none\f[R]]
+.B \-d
+[\f[B]body\f[R]|\f[B]description\f[R]|\f[B]subtitle\f[R]|\f[B]abstract\f[R]|\f[B]none\f[R]]
 Determines the content of the description element for every item.
 .RS
 .TP
@@ -71,7 +76,7 @@ The corresponding value from the \f[I]input\-file\f[R]\[cq]s metadata block.
 Omit the description element altogether.
 .RE
 .TP
-\-h
+.B \-h
 Print a help message.
 .SH EXIT STATUS
 .SH ENVIRONMENT
