@@ -1,7 +1,7 @@
 # Pandoc RSS
 
-This is a simple script that can be used to generate an RSS feed from
-the content and metadata of markup files.
+This is a simple script that can generate an RSS feed from the content
+and metadata of markup files.
 
 It is implemented in POSIX shell, though GNU date(1) is needed to
 transform date metadata to conform with [RSS Best Practices section
