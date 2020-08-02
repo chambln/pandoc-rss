@@ -47,6 +47,7 @@ Specify the email and optionally real name for the channel\[cq]s
 webMaster element. Without this, pandoc-rss will fall back on the
 EMAIL environment variable and the user\[cq]s GECOS field in
 /etc/passwd.
+If EMAIL is unset, the webMaster element will not be printed.
 .TP
 \f[B]\-g\f[R] \f[I]format\f[R]
 Include guid elements.
