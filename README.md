@@ -27,15 +27,15 @@ See pandoc-rss(1).
 ## To-do
 
   - [x] Add options for specifying channel title, link and description
-  - [ ] Finish writing the man page
   - [x] Add Makefile rule to install the man page
-  - [ ] Print warnings about relative links in the description element
-    (this is non-trivial)
   - [x] Cite pandoc-rss as the generator element
+  - [x] Produce a standalone feed if and only if at least the channel
+    title, description and link are provided.
   - [ ] Add option to specify the channel language
   - [ ] With no input-file, read file names line-by-line from stdin
+  - [ ] Finish writing the man page
   - [ ] Infer the guid/permalink format based on the channel link; for
     example if the channel link is `http://example.net` then the
     format is `http://example.net/%s.html`.
-  - [x] Produce a standalone feed if and only if at least the channel
-    title, description and link are provided.
+  - [ ] Print warnings about relative links in the description element
+    (this is non-trivial)
