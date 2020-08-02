@@ -14,5 +14,8 @@ install: bin/$(PROGRAM)
 	mkdir -p $(SHARE)
 	cp -fr share/$(PROGRAM) $(SHARE)
 
+	mkdir -p $(SHARE)/man/man1
+	cp -fr share/man/man1/* $(SHARE)/man/man1
+
 uninstall:
 	rm -f $(BIN)/$(PROGRAM)

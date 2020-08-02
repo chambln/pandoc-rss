@@ -28,7 +28,7 @@ See pandoc-rss(1).
 
   - [x] Add options for specifying channel title, link and description
   - [ ] Finish writing the man page
-  - [ ] Add Makefile rule to install the man page
+  - [x] Add Makefile rule to install the man page
   - [ ] Print warnings about relative links in the description element
     (this is non-trivial)
   - [x] Cite pandoc-rss as the generator element
