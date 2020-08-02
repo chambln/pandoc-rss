@@ -30,7 +30,7 @@ See pandoc-rss(1).
   - [ ] Finish writing the man page
   - [ ] Add Makefile rule to install the man page
   - [ ] Print warnings about relative links in the description element
-  - (this is non-trivial)
+    (this is non-trivial)
   - [x] Cite pandoc-rss as the generator element
   - [ ] Add option to specify the channel language
   - [ ] With no input-file, read file names line-by-line from stdin
