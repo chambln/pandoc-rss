@@ -101,6 +101,7 @@ generate_standalone_feed ()
     print_xml_element link "$channel_link"
     print_xml_element description "$channel_description"
     print_xml_element webMaster "$channel_webmaster"
+    print_xml_element docs https://www.rssboard.org/rss-specification
     echo '<generator>Pandoc RSS</generator>'
     generate_feed_items "$@"
     echo '</channel>'
