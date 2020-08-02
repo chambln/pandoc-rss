@@ -1,6 +1,6 @@
 #!/bin/sh
 
-get_user_fullname_gecos ()
+get_user_fullname ()
 {
     while IFS=':' read -r user _ _ _ gecos _
     do
@@ -15,15 +15,16 @@ get_user_fullname_gecos ()
     return 1
 }
 
-get_user_fullname ()
-{
-    printf %s\\n "${NAME:-$(get_user_fullname_gecos)}"
-}
-
-get_webmaster ()
+get_user_contact ()
 {
     [ -n "$EMAIL" ] || return 1
-    printf '%s (%s)\n' "$EMAIL" "$(get_user_fullname)"
+    user_fullname="${NAME:-$(get_user_fullname)}"
+    if [ -n "$user_fullname" ]
+    then
+	printf '%s (%s)\n' "$EMAIL" "$user_fullname"
+    else
+	printf '%s\n' "$EMAIL"
+    fi
 }
 
 get_metadata_value ()
@@ -136,6 +137,14 @@ share=${0%/*}/../share/${0##*/}
 templates_dir=$share/data/templates
 
 item_template="$templates_dir/item-with-${description_source}.xml"
+
+if [ -z "${channel_webmaster-}" ]
+then
+    if user_contact=$(get_user_contact)
+    then
+	channel_webmaster=$user_contact
+    fi
+fi
 
 if $standalone
 then

@@ -41,3 +41,5 @@ See pandoc-rss(1).
   - [ ] Infer the guid/permalink format based on the channel link; for
     example if the channel link is `http://example.net` then the
     format is `http://example.net/%s.html`.
+  - [ ] Produce a standalone feed if and only if at least the channel
+    title, description and link are provided.

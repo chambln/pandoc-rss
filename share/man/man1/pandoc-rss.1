@@ -5,7 +5,11 @@ pandoc\-rss \- Feed generator
 .PP
 \f[B]pandoc\-rss\f[R] [\f[I]options\f[R]] [\f[I]input\-file\f[R]]...
 .PP
-\f[B]pandoc\-rss \-S\f[R] [\f[I]options\f[R]]
+\f[B]pandoc\-rss
+\f[B]\-ST\f[R] \f[I]title\f[R]
+\f[B]\-D\f[R] \f[I]description\f[R]
+\f[B]\-L\f[R] \f[I]link\f[R]
+[\f[I]options\f[R]]
 [\f[I]input\-file\f[R]]... \f[B]>\f[R] \f[I]feed.xml\f[R]
 .SH DESCRIPTION
 .PP
@@ -39,8 +43,10 @@ Set the channel description.
 .TP
 .PD
 \f[B]\-W\f[] \[aq]\f[I]webmaster\@example.net\f[] \f[B](\f[]\f[I]Real Name\f[]\f[B])\f[]\[aq]
-Specify the email and optionally real name for the channel's webMaster
-element.
+Specify the email and optionally real name for the channel\[cq]s
+webMaster element. Without this, pandoc-rss will fall back on the
+EMAIL environment variable and the user\[cq]s GECOS field in
+/etc/passwd.
 .TP
 \f[B]\-g\f[R] \f[I]format\f[R]
 Include guid elements.
