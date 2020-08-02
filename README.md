@@ -1,19 +1,13 @@
 # Pandoc RSS
 
-This is a shell script that uses pandoc(1) with an XML template to
-generate a sequence of `<item>…</item>` elements from markup source
-files. You can use it to create an RSS feed from a series of files that
-Pandoc can read metadata from, such as ReST or Pandoc-flavoured
-Markdown.
+This is a simple script that can be used to generate an RSS feed from
+the content and metadata of markup files.
+
+It is implemented in POSIX shell, though GNU date(1) is needed to
+transform date metadata to conform with [RSS Best Practices section
+3.2](https://www.rssboard.org/rss-profile#data-types-datetime).
 
 **Note:** This is alpha software and there may be breaking changes.
-
-## Dependencies
-
-  - POSIX sh
-  - GNU coreutils date(1) — to interpret and reformat dates to conform with
-    [RSS Best Practices 3.2 Dates and Times](https://www.rssboard.org/rss-profile#data-types-datetime)
-  - pandoc(1)
 
 ## Usage
 
