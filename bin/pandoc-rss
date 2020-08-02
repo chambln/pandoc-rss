@@ -109,7 +109,7 @@ generate_standalone_feed ()
 description_source=body
 guid_is_perma_link=true
 standalone=false
-while getopts D:L:T:SW:d:g:hp name
+while getopts ST:L:D:W:d:g:hp name
 do
     case "$name" in
     S)  standalone=true ;;
