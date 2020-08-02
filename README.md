@@ -11,7 +11,7 @@ transform date metadata to conform with [RSS Best Practices section
 
 ## Usage
 
-See pandoc-rss(1).
+See [pandoc-rss(1)](https://cosine.blue/pandoc-rss.1).
 
 ## Bugs and notes
 
