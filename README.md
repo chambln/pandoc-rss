@@ -27,6 +27,8 @@ See pandoc-rss(1).
     title, description and link are provided.
   - [ ] Add option to specify the channel language
   - [ ] With no input-file, read file names line-by-line from stdin
+  - [ ] Instead of using a CDATA block, encode special characters in
+    the body text as HTML entities.
   - [ ] Finish writing the man page
   - [ ] Infer the guid/permalink format based on the channel link; for
     example if the channel link is `http://example.net` then the
