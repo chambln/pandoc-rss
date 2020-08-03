@@ -1,5 +1,19 @@
 #!/bin/sh
 
+usage ()
+{
+    cat <<EOF
+Usage: ${0##*/} [OPTIONS] [FILE]...
+  OPTION            EXAMPLE ARGUMENT
+  -T TITLE         'Example Feed'
+  -D DESCRIPTION   'Short description of the feed'
+  -L LINK           http://example.net
+  -g GUID_FORMAT    blog/%.html  =>  http://example.net/blog/%s.html
+  -W WEBMASTER     'webmaster@example.net (Real Name)'
+  -C COPYRIGHT     'Year © Name, CC BY-SA 4.0'
+EOF
+}
+
 get_user_fullname ()
 {
     while IFS=':' read -r user _ _ _ gecos _
@@ -138,7 +152,7 @@ do
 	       exit 1
 	esac
 	;;
-    h)  >&2 printf 'Usage: %s [OPTIONS] [FILE]...\n' "${0##*/}"; exit ;;
+    h)  usage; exit ;;
     p)  guid_is_perma_link=false ;;
     esac
 done
