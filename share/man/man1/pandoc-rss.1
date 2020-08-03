@@ -51,21 +51,22 @@ non-empty, and the user\[cq]s GECOS field in /etc/passwd.
 \f[B]\-C\f[] \f[I]copyright\f[]
 Copyright statement that applies to the feed.
 .TP
-\f[B]\-g\f[R] \f[I]format\f[R]
-Include guid elements (recommended).
+\f[B]\-g\f[R] [\f[I]format\f[R]|\f[B]omit\f[]]
+Change or omit the guid.
 .IP
-The printf\-style
 .I format
-string should contain exactly one \[oq]%s\[cq] which will be
-substituted for the file name of
+must contain \[oq]%s\[cq] and can be an absolute URI or relative to
+the channel \f[I]link\f[].
+.IP
+For example, if an
 .I input\-file
-stripped of its extension.
-.IP
-For example, if
-.I format
-is \f[C]http://example.net/%s.html\f[R], then an \f[I]input\-file\f[R]
-named \[oq]foo.md\[cq] will have a guid element containing
-\[oq]http://example.net/foo.html\[cq].
+\[oq]foo.md\[cq] is available at
+\[oq]http://example.net/blog/foo.html\[cq], then you should use
+.B \-L http://example.net \-g blog/%s.html
+or if it is
+available at \[oq]http://doc.example.net/foo.pdf\[cq] you should use
+.B \-g http://doc.example.net/%s.pdf
+.B 
 .TP
 .B \-p
 Indicate that guids should not be regarded as permalinks.
@@ -100,7 +101,7 @@ Print a help message.
 pandoc\-rss \-T \[aq]Example Feed\[aq] \e
            \-L http://example.net \e
            \-D \[aq]An example RSS feed for illustrative purposes.\[aq] \e
-           \-g http://example.net/%s.html \e
+           \-g http://example.net/blog/%s.html \e
     foo.md bar.md > feed.xml
 \f[R]
 .fi
