@@ -11,6 +11,7 @@ Usage: ${0##*/} [OPTIONS] [FILE]...
   -g GUID_FORMAT    blog/%.html  =>  http://example.net/blog/%s.html
   -W WEBMASTER     'webmaster@example.net (Real Name)'
   -C COPYRIGHT     'Year © Name, CC BY-SA 4.0'
+  -N LANGUAGE       en-GB
 EOF
 }
 
@@ -114,6 +115,7 @@ generate_standalone_feed ()
     print_xml_element title "$channel_title"
     print_xml_element link "$channel_link"
     print_xml_element description "$channel_description"
+    print_xml_element language "$channel_language"
     print_xml_element webMaster "$channel_webmaster"
     print_xml_element copyright "$channel_copyright"
     print_xml_element docs https://www.rssboard.org/rss-specification
@@ -127,7 +129,7 @@ description_source=body
 guid_is_perma_link=true
 standalone=false
 guid_optarg=auto
-while getopts T:L:D:W:C:d:g:hp name
+while getopts T:L:D:W:C:N:d:g:hp name
 do
     case "$name" in
     T)  channel_title=$OPTARG ;;
@@ -135,6 +137,7 @@ do
     D)  channel_description=$OPTARG ;;
     W)  channel_webmaster=$OPTARG ;;
     C)  channel_copyright=$OPTARG ;;
+    N)  channel_language=$OPTARG ;;
     d)  description_source=$OPTARG
 	case $description_source in
 	body|description|subtitle|abstract|none) ;;
