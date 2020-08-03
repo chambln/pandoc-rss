@@ -126,6 +126,7 @@ generate_standalone_feed ()
 description_source=body
 guid_is_perma_link=true
 standalone=false
+guid_optarg=auto
 while getopts T:L:D:W:C:d:g:hp name
 do
     case "$name" in
@@ -154,7 +155,7 @@ templates_dir=$share/data/templates
 
 item_template="$templates_dir/item-with-${description_source}.xml"
 
-case ${guid_optarg-auto} in
+case $guid_optarg in
     auto)      guid_format=$channel_link/%s.html ;;
     omit)      guid_format= ;;
     *://*%s*)  guid_format=$guid_optarg ;;
