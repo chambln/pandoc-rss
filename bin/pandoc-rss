@@ -15,6 +15,16 @@ Usage: ${0##*/} [OPTIONS] [FILE]...
 EOF
 }
 
+get_language_code ()
+{
+    [ -n "$LANG" ] || exit 1
+    code=${LANG%%.*}
+    primary_code=${code%%_*}
+    subcode=${code#$primary_code}
+    subcode=${subcode#_}
+    printf %s\\n "$primary_code${subcode:+-$subcode}"
+}
+
 get_user_fullname ()
 {
     while IFS=':' read -r user _ _ _ gecos _
@@ -172,6 +182,14 @@ then
     if user_contact=$(get_user_contact)
     then
 	channel_webmaster=$user_contact
+    fi
+fi
+
+if [ -z "$channel_language" ]
+then
+    if language_code=$(get_language_code)
+    then
+	channel_language=$language_code
     fi
 fi
 
