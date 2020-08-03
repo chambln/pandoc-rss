@@ -130,8 +130,7 @@ while getopts T:L:D:W:C:d:g:hp name
 do
     case "$name" in
     T)  channel_title=$OPTARG ;;
-    L)  channel_link=${OPTARG%/}
-	guid_format=${guid_format-$channel_link/%s.html};;
+    L)  channel_link=${OPTARG%/} ;;
     D)  channel_description=$OPTARG ;;
     W)  channel_webmaster=$OPTARG ;;
     C)  channel_copyright=$OPTARG ;;
@@ -143,15 +142,7 @@ do
 	    exit 1
 	esac
 	;;
-    g)  case $OPTARG in
-	    omit)  guid_format= ;;
-	    *://*) guid_format=$OPTARG ;;
-	    /*%s*) guid_format=$channel_link/${OPTARG#/} ;;
-	    *%s*)  guid_format=$channel_link/$OPTARG ;;
-	    *) >&2 printf 'Invalid arg ‘%s’ for -%s option\n' "$OPTARG" "$name"
-	       exit 1
-	esac
-	;;
+    g)  guid_optarg=$OPTARG ;;
     h)  usage; exit ;;
     p)  guid_is_perma_link=false ;;
     esac
@@ -162,6 +153,15 @@ share=${0%/*}/../share/${0##*/}
 templates_dir=$share/data/templates
 
 item_template="$templates_dir/item-with-${description_source}.xml"
+
+case ${guid_optarg-auto} in
+    auto)      guid_format=$channel_link/%s.html ;;
+    omit)      guid_format= ;;
+    *://*%s*)  guid_format=$guid_optarg ;;
+    *%s*)      guid_format=$channel_link/${guid_optarg#/} ;;
+    *)         >&2 printf 'Invalid guid format ‘%s’\n' "$guid_optarg"
+	       exit 1
+esac
 
 if [ -z "${channel_webmaster-}" ]
 then
