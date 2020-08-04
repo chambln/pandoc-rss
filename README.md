@@ -25,12 +25,12 @@ See pandoc-rss(1).
   - [x] Cite pandoc-rss as the generator element
   - [x] Produce a standalone feed if and only if at least the channel
     title, description and link are provided.
-  - [ ] Add option to specify the channel language
+  - [x] Add option to specify the channel language
   - [ ] With no input-file, read file names line-by-line from stdin
   - [ ] Instead of using a CDATA block, encode special characters in
     the body text as HTML entities.
   - [ ] Finish writing the man page
-  - [ ] Infer the guid/permalink format based on the channel link; for
+  - [x] Infer the guid/permalink format based on the channel link; for
     example if the channel link is `http://example.net` then the
     format is `http://example.net/%s.html`.
   - [ ] Print warnings about relative links in the description element
