@@ -184,26 +184,20 @@ templates_dir=$share/data/templates
 
 item_template="$templates_dir/item-with-${description_source}.xml"
 
-if [ -n "$channel_link" ]
-then
-    case $guid_optarg in
-	auto)      guid_format=$channel_link/%s.html ;;
-	omit)      guid_format= ;;
-	*://*%s*)  guid_format=$guid_optarg ;;
-	*%s*)      guid_format=$channel_link/${guid_optarg#/} ;;
-	*)         >&2 printf 'Invalid guid format ‘%s’\n' "$guid_optarg"
-		   exit 1
-    esac
-else
-    case $guid_optarg in
-	auto)      guid_format= ;;
-	omit)      guid_format= ;;
-	*://*%s*)  guid_format=$guid_optarg ;;
-	*%s*)      guid_format= ;;
-	*)         >&2 printf 'Invalid guid format ‘%s’\n' "$guid_optarg"
-		   exit 1
-    esac
-fi
+case $guid_optarg in
+    auto) guid_optarg=%s.html
+esac
+case $guid_optarg in
+    omit)      guid_format= ;;
+    *://*%s*)  guid_format=$guid_optarg ;;
+    *%s*)      if [ -n "${channel_link-}" ]
+	       then
+		   guid_format=$channel_link/${guid_optarg#/}
+	       fi
+	       ;;
+    *)         >&2 printf 'Invalid guid format ‘%s’\n' "$guid_optarg"
+	       exit 1
+esac
 
 if [ -n "${channel_title-}" ] &&
    [ -n "${channel_description-}" ] &&
