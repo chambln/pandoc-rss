@@ -119,6 +119,22 @@ print_xml_element ()
 
 generate_standalone_feed ()
 {
+    if [ -z "${channel_webmaster-}" ]
+    then
+	if user_contact=$(get_user_contact)
+	then
+	    channel_webmaster=$user_contact
+	fi
+    fi
+
+    if [ -z "$channel_language" ]
+    then
+	if language_code=$(get_language_code)
+	then
+	    channel_language=$language_code
+	fi
+    fi
+
     echo '<?xml version="1.0" encoding="UTF-8" ?>'
     echo '<rss version="2.0">'
     echo '<channel>'
@@ -176,22 +192,6 @@ case $guid_optarg in
     *)         >&2 printf 'Invalid guid format ‘%s’\n' "$guid_optarg"
 	       exit 1
 esac
-
-if [ -z "${channel_webmaster-}" ]
-then
-    if user_contact=$(get_user_contact)
-    then
-	channel_webmaster=$user_contact
-    fi
-fi
-
-if [ -z "$channel_language" ]
-then
-    if language_code=$(get_language_code)
-    then
-	channel_language=$language_code
-    fi
-fi
 
 if [ -n "${channel_title-}" ] &&
    [ -n "${channel_description-}" ] &&
