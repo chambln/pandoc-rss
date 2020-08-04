@@ -59,7 +59,7 @@ non-empty, and the user\[cq]s GECOS field in /etc/passwd.
 \f[B]\-C\f[] \f[I]copyright\f[]
 Copyright statement that applies to the feed.
 .TP
-\f[B]\-g\f[R] [\f[I]format\f[R]|\f[B]auto\f[]|\f[B]omit\f[]]
+\f[B]\-f\f[R] [\f[I]format\f[R]|\f[B]auto\f[]|\f[B]omit\f[]]
 Format or omit the guid.
 Without this, default to \f[B]auto\f[] which is equivalent to a
 .I format
@@ -74,10 +74,10 @@ For example, if an
 .I input\-file
 \[oq]foo.md\[cq] is available at
 \[oq]http://example.net/blog/foo\[cq], then you should use
-.B \-L http://example.net \-g blog/%s
+.B \-L http://example.net \-f blog/%s
 or if it is
 available at \[oq]http://blog.example.net/foo.html\[cq] you should use
-\f[B]\-g http://blog.example.net/%s.html\f[].
+\f[B]\-f http://blog.example.net/%s.html\f[].
 .B 
 .TP
 .B \-p
@@ -114,7 +114,7 @@ Print a help message.
 pandoc\-rss \-T \[aq]Example Feed\[aq] \e
            \-L http://example.net \e
            \-D \[aq]An example RSS feed for illustrative purposes.\[aq] \e
-           \-g blog/%s.html \e
+           \-f blog/%s.html \e
     foo.md bar.md > feed.xml
 \f[R]
 .fi

@@ -8,7 +8,7 @@ Usage: ${0##*/} [OPTIONS] [FILE]...
   -T TITLE         'Example Feed'
   -D DESCRIPTION   'Short description of the feed'
   -L LINK           http://example.net
-  -g GUID_FORMAT    blog/%.html  =>  http://example.net/blog/%s.html
+  -f GUID_FORMAT    blog/%.html  =>  http://example.net/blog/%s.html
   -W WEBMASTER     'webmaster@example.net (Real Name)'
   -C COPYRIGHT     'Year © Name, CC BY-SA 4.0'
   -N LANGUAGE       en-GB
@@ -139,7 +139,7 @@ description_source=body
 guid_is_perma_link=true
 standalone=false
 guid_optarg=auto
-while getopts T:L:D:W:C:N:d:g:hp name
+while getopts T:L:D:W:C:N:d:f:hp name
 do
     case "$name" in
     T)  channel_title=$OPTARG ;;
@@ -156,7 +156,7 @@ do
 	    exit 1
 	esac
 	;;
-    g)  guid_optarg=$OPTARG ;;
+    f)  guid_optarg=$OPTARG ;;
     h)  usage; exit ;;
     p)  guid_is_perma_link=false ;;
     esac
