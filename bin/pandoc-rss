@@ -119,6 +119,9 @@ print_xml_element ()
 
 generate_standalone_feed ()
 {
+    channel_title=${channel_title:-${channel_link#*://}}
+    channel_description=${channel_description:-Posts from $channel_title}
+    
     if [ -z "${channel_webmaster-}" ]
     then
 	if user_contact=$(get_user_contact)
@@ -199,9 +202,7 @@ case $guid_optarg in
 	       exit 1
 esac
 
-if [ -n "${channel_title-}" ] &&
-   [ -n "${channel_description-}" ] &&
-   [ -n "${channel_link-}" ]
+if [ -n "${channel_link-}" ]
 then
     generate_standalone_feed "$@"
 else
