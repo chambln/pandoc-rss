@@ -83,23 +83,14 @@ available at \[oq]http://blog.example.net/foo.html\[cq] you should use
 .B \-p
 Indicate that guids should not be regarded as permalinks.
 .TP
-\f[B]\-o\f[R] [\f[B]body\f[R]|\f[B]description\f[R]|\f[B]subtitle\f[R]|\f[B]abstract\f[R]|\f[B]none\f[R]]
-What to put in the description element for every item. Without this,
-default to \f[B]body\f[].
-.RS
-.TP
-.B body
-The full content of the \f[I]input-file\f[R] rendered as HTML using
-Pandoc.
-This way, people can read the entire document offline and within their
-feed reader.
-.TP
-\f[B]description\f[R], \f[B]subtitle\f[R], \f[B]abstract\f[R]
-The corresponding value from the \f[I]input\-file\f[R]\[cq]s metadata block.
-.TP
-.B none
-Omit the description element altogether.
-.RE
+.B \-o
+Omit the document body for all \f[I]input-file\f[]s.
+.IP
+Without \f[B]-o\f[], default behaviour is to render each
+.I input\-file
+as HTML using Pandoc and embed it in the feed. This way, one can read
+the entire document offline and from the comfort of one\[cq]s feed
+reader.
 .TP
 .B \-h
 Print a help message.
