@@ -119,8 +119,10 @@ print_xml_element ()
 
 generate_standalone_feed ()
 {
-    channel_title=${channel_title:-${channel_link#*://}}
-    channel_description=${channel_description:-Posts from $channel_title}
+    domain=${domain-${PWD##*/}}
+    channel_link=${channel_link-https://$domain}
+    channel_title=${channel_title-$domain}
+    channel_description=${channel_description:-Posts from $domain}
     
     if [ -z "${channel_webmaster-}" ]
     then
@@ -157,7 +159,7 @@ generate_standalone_feed ()
 description_source=body
 guid_is_perma_link=true
 guid_optarg=auto
-while getopts t:l:d:w:c:n:o:f:hp name
+while getopts t:l:d:w:c:n:o:f:hps name
 do
     case "$name" in
     t)  channel_title=$OPTARG ;;
@@ -177,6 +179,7 @@ do
     f)  guid_optarg=$OPTARG ;;
     h)  usage; exit ;;
     p)  guid_is_perma_link=false ;;
+    s)  standalone=true ;;
     esac
 done
 shift $((OPTIND - 1))
@@ -201,7 +204,7 @@ case $guid_optarg in
 	       exit 1
 esac
 
-if [ -n "${channel_link-}" ]
+if ${standalone-false}
 then
     generate_standalone_feed "$@"
 else
