@@ -6,9 +6,9 @@ pandoc\-rss \- Feed generator
 \f[B]pandoc\-rss\f[R] [\f[I]options\f[R]] [\f[I]input\-file\f[R]]...
 .PP
 \f[B]pandoc\-rss
-\f[B]\-T\f[R] \f[I]title\f[R]
-\f[B]\-D\f[R] \f[I]description\f[R]
-\f[B]\-L\f[R] \f[I]link\f[R]
+\f[B]\-t\f[R] \f[I]title\f[R]
+\f[B]\-d\f[R] \f[I]description\f[R]
+\f[B]\-l\f[R] \f[I]link\f[R]
 [\f[I]options\f[R]]
 [\f[I]input\-file\f[R]]... \f[B]>\f[R]\f[I]feed.xml\f[R]
 .SH DESCRIPTION
@@ -29,16 +29,16 @@ best practices. Therefore, the date metadata of each
 interpretted correctly by GNU date.
 .SH OPTIONS
 .TP
-\f[B]\-T\f[R] \f[I]title\f[R]
+\f[B]\-t\f[R] \f[I]title\f[R]
 The name of the feed.
 .TP
-\f[B]\-L\f[R] \f[I]link\f[R]
+\f[B]\-l\f[R] \f[I]link\f[R]
 The URL of the web site associated with the feed.
 .TP
-\f[B]\-D\f[R] \f[I]description\f[R]
+\f[B]\-d\f[R] \f[I]description\f[R]
 A short characterization or summary of the feed.
 .TP
-\f[B]\-N\f[] \f[I]language\f[]
+\f[B]\-n\f[] \f[I]language\f[]
 The language code of the natural language in which the feed items are
 written. You can find a list of valid language codes at
 https://www.rssboard.org/rss-language-codes.
@@ -46,17 +46,17 @@ https://www.rssboard.org/rss-language-codes.
 Without this, pandoc-rss infers the language from the LANG environment
 variable.
 .TP
-\f[B]\-W\f[] \f[I]webmaster\@example.net\f[]
+\f[B]\-w\f[] \f[I]webmaster\@example.net\f[]
 .PD 0
 .TP
 .PD
-\f[B]\-W\f[] \[aq]\f[I]webmaster\@example.net\f[] \f[B](\f[]\f[I]Real Name\f[]\f[B])\f[]\[aq]
+\f[B]\-w\f[] \[aq]\f[I]webmaster\@example.net\f[] \f[B](\f[]\f[I]Real Name\f[]\f[B])\f[]\[aq]
 The e-mail address (and optionally real name) for the person to
 contact about technical issues regarding the feed. Without this,
 pandoc-rss will fall back on the EMAIL environment variable, if
 non-empty, and the user\[cq]s GECOS field in /etc/passwd.
 .TP
-\f[B]\-C\f[] \f[I]copyright\f[]
+\f[B]\-c\f[] \f[I]copyright\f[]
 Copyright statement that applies to the feed.
 .TP
 \f[B]\-f\f[R] [\f[I]format\f[R]|\f[B]auto\f[]|\f[B]omit\f[]]
@@ -74,7 +74,7 @@ For example, if an
 .I input\-file
 \[oq]foo.md\[cq] is available at
 \[oq]http://example.net/blog/foo\[cq], then you should use
-.B \-L http://example.net \-f blog/%s
+.B \-l http://example.net \-f blog/%s
 or if it is
 available at \[oq]http://blog.example.net/foo.html\[cq] you should use
 \f[B]\-f http://blog.example.net/%s.html\f[].
@@ -83,7 +83,7 @@ available at \[oq]http://blog.example.net/foo.html\[cq] you should use
 .B \-p
 Indicate that guids should not be regarded as permalinks.
 .TP
-\f[B]\-d\f[R] [\f[B]body\f[R]|\f[B]description\f[R]|\f[B]subtitle\f[R]|\f[B]abstract\f[R]|\f[B]none\f[R]]
+\f[B]\-o\f[R] [\f[B]body\f[R]|\f[B]description\f[R]|\f[B]subtitle\f[R]|\f[B]abstract\f[R]|\f[B]none\f[R]]
 What to put in the description element for every item. Without this,
 default to \f[B]body\f[].
 .RS
@@ -111,9 +111,9 @@ Print a help message.
 .IP
 .nf
 \f[C]
-pandoc\-rss \-T \[aq]Example Feed\[aq] \e
-           \-L http://example.net \e
-           \-D \[aq]An example RSS feed for illustrative purposes.\[aq] \e
+pandoc\-rss \-t \[aq]Example Feed\[aq] \e
+           \-l http://example.net \e
+           \-d \[aq]An example RSS feed for illustrative purposes.\[aq] \e
            \-f blog/%s.html \e
     foo.md bar.md > feed.xml
 \f[R]

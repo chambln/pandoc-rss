@@ -5,13 +5,13 @@ usage ()
     cat <<EOF
 Usage: ${0##*/} [OPTIONS] [FILE]...
   OPTION            EXAMPLE ARGUMENT
-  -T TITLE         'Example Feed'
-  -D DESCRIPTION   'Short description of the feed'
-  -L LINK           http://example.net
+  -t TITLE         'Example Feed'
+  -d DESCRIPTION   'Short description of the feed'
+  -l LINK           http://example.net
   -f GUID_FORMAT    blog/%.html  =>  http://example.net/blog/%s.html
-  -W WEBMASTER     'webmaster@example.net (Real Name)'
-  -C COPYRIGHT     'Year © Name, CC BY-SA 4.0'
-  -N LANGUAGE       en-GB
+  -w WEBMASTER     'webmaster@example.net (Real Name)'
+  -c COPYRIGHT     'Year © Name, CC BY-SA 4.0'
+  -n LANGUAGE       en-GB
 EOF
 }
 
@@ -158,16 +158,16 @@ description_source=body
 guid_is_perma_link=true
 standalone=false
 guid_optarg=auto
-while getopts T:L:D:W:C:N:d:f:hp name
+while getopts t:l:d:w:c:n:o:f:hp name
 do
     case "$name" in
-    T)  channel_title=$OPTARG ;;
-    L)  channel_link=${OPTARG%/} ;;
-    D)  channel_description=$OPTARG ;;
-    W)  channel_webmaster=$OPTARG ;;
-    C)  channel_copyright=$OPTARG ;;
-    N)  channel_language=$OPTARG ;;
-    d)  description_source=$OPTARG
+    t)  channel_title=$OPTARG ;;
+    l)  channel_link=${OPTARG%/} ;;
+    d)  channel_description=$OPTARG ;;
+    w)  channel_webmaster=$OPTARG ;;
+    c)  channel_copyright=$OPTARG ;;
+    n)  channel_language=$OPTARG ;;
+    o)  description_source=$OPTARG
 	case $description_source in
 	body|description|subtitle|abstract|none) ;;
         *)
