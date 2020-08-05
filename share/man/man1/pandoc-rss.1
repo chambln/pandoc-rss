@@ -94,9 +94,25 @@ reader.
 .TP
 .B \-h
 Print a help message.
-.SH EXIT STATUS
 .SH ENVIRONMENT
+.TP
+.B EMAIL
+The e\-mail address for the person to contact about technical issues
+regarding the feed.
+Can be overridden by the
+.B \-w
+option.
+.TP
+.B LANG
+Determines the natural language in which the feed items are written.
+Can be overridden by the
+.B \-n
+option.
 .SH NOTES
+.PP
+Any relative links in the body of an
+.I input\-file
+will become relative links in the feed, which is not valid RSS.
 .SH BUGS
 .SH EXAMPLES
 .IP
