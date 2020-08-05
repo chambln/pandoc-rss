@@ -156,7 +156,6 @@ generate_standalone_feed ()
 
 description_source=body
 guid_is_perma_link=true
-standalone=false
 guid_optarg=auto
 while getopts t:l:d:w:c:n:o:f:hp name
 do
