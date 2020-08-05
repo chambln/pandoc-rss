@@ -34,4 +34,6 @@ See pandoc-rss(1).
     the body text as HTML entities.
   - [ ] Finish writing the man page
   - [ ] Print warnings about relative links in the description element
-    (this is non-trivial)
+    (this is non-trivial). Or better, use the channel link as a base
+    for relative links. Perhaps only do this with an explicit option,
+    otherwise this could lead to confusion and spurious links.
