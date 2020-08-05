@@ -101,7 +101,11 @@ generate_feed_item ()
 	set -- -V "date:$date" "$@"
     fi
 
-    pandoc --template="$item_template" "$@" "$input_file"
+    case $description_source in
+	none) set -- -V body: "$@" ;;
+    esac
+
+    pandoc --template="$templates_dir/item.xml" "$@" "$input_file"
 }
 
 generate_feed_items ()
@@ -156,7 +160,7 @@ generate_standalone_feed ()
     echo '</rss>'
 }
 
-description_source=body
+description_source=none
 guid_is_perma_link=true
 guid_optarg=auto
 while getopts t:l:d:w:c:n:o:f:hps name
@@ -170,7 +174,7 @@ do
     n)  channel_language=$OPTARG ;;
     o)  description_source=$OPTARG
 	case $description_source in
-	body|description|subtitle|abstract|none) ;;
+	body|none) ;;
         *)
 	    >&2 printf 'Invalid arg ‘%s’ for -%s option\n' "$OPTARG" "$name"
 	    exit 1
@@ -186,8 +190,6 @@ shift $((OPTIND - 1))
 
 share=${0%/*}/../share/${0##*/}
 templates_dir=$share/data/templates
-
-item_template="$templates_dir/item-with-${description_source}.xml"
 
 case $guid_optarg in
     auto) guid_optarg=%s.html

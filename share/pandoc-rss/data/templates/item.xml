@@ -8,7 +8,7 @@ $endif$
 $if(guid)$
 $guid$
 $endif$
-$if(abstract)$
-<description><![CDATA[$abstract$]]></description>
+$if(body)$
+<description><![CDATA[$body$]]></description>
 $endif$
 </item>
