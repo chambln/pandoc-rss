@@ -166,17 +166,17 @@ guid_optarg=auto
 while getopts t:l:d:w:c:n:of:hps name
 do
     case "$name" in
-    t)  channel_title=$OPTARG ;;
-    l)  channel_link=${OPTARG%/} ;;
-    d)  channel_description=$OPTARG ;;
-    w)  channel_webmaster=$OPTARG ;;
-    c)  channel_copyright=$OPTARG ;;
-    n)  channel_language=$OPTARG ;;
-    o)  omit_body=true ;;
-    f)  guid_optarg=$OPTARG ;;
-    h)  usage; exit ;;
-    p)  guid_is_perma_link=false ;;
-    s)  standalone=true ;;
+	t)  channel_title=$OPTARG ;;
+	l)  channel_link=${OPTARG%/} ;;
+	d)  channel_description=$OPTARG ;;
+	w)  channel_webmaster=$OPTARG ;;
+	c)  channel_copyright=$OPTARG ;;
+	n)  channel_language=$OPTARG ;;
+	o)  omit_body=true ;;
+	f)  guid_optarg=$OPTARG ;;
+	h)  usage; exit ;;
+	p)  guid_is_perma_link=false ;;
+	s)  standalone=true ;;
     esac
 done
 shift $((OPTIND - 1))
