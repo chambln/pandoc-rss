@@ -5,12 +5,8 @@ pandoc\-rss \- Feed generator
 .PP
 \f[B]pandoc\-rss\f[R] [\f[I]options\f[R]] [\f[I]input\-file\f[R]]...
 .PP
-\f[B]pandoc\-rss
-\f[B]\-t\f[R] \f[I]title\f[R]
-\f[B]\-d\f[R] \f[I]description\f[R]
-\f[B]\-l\f[R] \f[I]link\f[R]
-[\f[I]options\f[R]]
-[\f[I]input\-file\f[R]]... \f[B]>\f[R]\f[I]feed.xml\f[R]
+\f[B]pandoc\-rss \-s\f[R] [\f[I]options\f[R]] [\f[I]input\-file\f[R]]...
+\f[B]>\f[R]\f[I]feed.xml\f[R]
 .SH DESCRIPTION
 .PP
 The
@@ -19,15 +15,16 @@ utility generates an RSS feed from a series of input files.  Each
 \f[I]input\-file\f[R] corresponds to a feed item, and must be written
 in a markup language that can be read by Pandoc.
 .PP
-Given a \f[I]title\f[R], \f[I]description\f[R] and \f[I]link\f[R] for
-the channel, a standalone XML file is produced. Otherwise only item
-fragments are produced.
-.PP
 GNU \f[B]date\f[R](1) is used to transform dates to conform with RSS
 best practices. Therefore, the date metadata of each
 \f[I]input\-file\f[R] must be written in a form that will be
 interpretted correctly by GNU date.
 .SH OPTIONS
+.TP
+.B \-s
+Produce a standalone XML file.
+.IP
+Without this, only item fragments are produced.
 .TP
 \f[B]\-t\f[R] \f[I]title\f[R]
 The name of the feed.
