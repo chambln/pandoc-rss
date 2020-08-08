@@ -92,8 +92,7 @@ generate_feed_item ()
 
     if guid=$(get_guid "$input_file")
     then
-	attribute=" isPermLink=\"$guid_is_perma_link\""
-	set -- -V "guid:<guid${attribute-}>$guid</guid>" "$@"
+	set -- -V "guid:$guid" "$@"
     fi
 
     if date=$(get_date "$input_file")
@@ -161,9 +160,8 @@ generate_standalone_feed ()
     echo '</rss>'
 }
 
-guid_is_perma_link=true
 guid_optarg=auto
-while getopts t:l:d:w:c:n:of:hps name
+while getopts t:l:d:w:c:n:of:hs name
 do
     case "$name" in
 	t)  channel_title=$OPTARG ;;
@@ -175,7 +173,6 @@ do
 	o)  omit_body=true ;;
 	f)  guid_optarg=$OPTARG ;;
 	h)  usage; exit ;;
-	p)  guid_is_perma_link=false ;;
 	s)  standalone=true ;;
     esac
 done

@@ -6,7 +6,7 @@ $if(date)$
 <pubDate>$date$</pubDate>
 $endif$
 $if(guid)$
-$guid$
+<guid>$guid$</guid>
 $endif$
 $if(body)$
 <description><![CDATA[$body$]]></description>
