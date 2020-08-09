@@ -25,6 +25,17 @@ get_language_code ()
     printf %s\\n "$primary_code${subcode:+-$subcode}"
 }
 
+is_valid_language_code ()
+{
+    arg=$(printf %s "$1" | tr [A-Z] [a-z])
+    while IFS=' 	' read -r code _
+    do
+	[ x"$code" = x"#" ] && continue
+	[ x"$code" = x"$arg" ] && return 0
+    done < $share/data/language-codes
+    return 1
+}
+
 get_user_fullname ()
 {
     while IFS=':' read -r user _ _ _ gecos _
@@ -142,6 +153,13 @@ generate_standalone_feed ()
 	then
 	    channel_language=$language_code
 	fi
+    fi
+
+    if ! is_valid_language_code "$channel_language"
+    then
+	>&2 printf 'Invalid language code: ‘%s’\n' "$channel_language"
+	>&2 printf 'See %s\n' "$share"/data/language-codes
+	exit 1
     fi
 
     echo '<?xml version="1.0" encoding="UTF-8" ?>'

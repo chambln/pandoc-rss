@@ -37,8 +37,7 @@ A short characterization or summary of the feed.
 .TP
 \f[B]\-n\f[] \f[I]language\f[]
 The language code of the natural language in which the feed items are
-written. You can find a list of valid language codes at
-https://www.rssboard.org/rss-language-codes.
+written.
 .IP
 Without this, pandoc-rss infers the language from the LANG environment
 variable.
@@ -106,6 +105,11 @@ Can be overridden by the
 .B \-n
 option.
 .SH NOTES
+.SH FILES
+.TP
+\f[I]$PREFIX\f[]/share/data/language\-codes
+Canonical list of valid RSS language codes, assuming the pandoc\-rss
+script is in \f[I]$PREFIX\f[]/bin.
 .PP
 Any relative links in the body of an
 .I input\-file
