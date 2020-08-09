@@ -32,8 +32,14 @@ See pandoc-rss(1).
   - [ ] With no input-file, read file names line-by-line from stdin
   - [ ] Instead of using a CDATA block, encode special characters in
     the body text as HTML entities.
+	
+    I think this is not possible using the current template because
+    Pandoc simply replaces `$body$` with the rendered HTML; I’m not
+    sure how we could intercept that process to escape all `[&<>]`
+    characters as required.
   - [ ] Finish writing the man page
   - [ ] Print warnings about relative links in the description element
     (this is non-trivial). Or better, use the channel link as a base
     for relative links. Perhaps only do this with an explicit option,
     otherwise this could lead to confusion and spurious links.
+  - [ ] Support for input files in a directory tree.
