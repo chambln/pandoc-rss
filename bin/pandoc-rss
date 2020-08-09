@@ -4,11 +4,11 @@ usage ()
 {
     cat <<EOF
 Usage: ${0##*/} [OPTIONS] [FILE]...
-  OPTION            EXAMPLE ARGUMENT
+  -s                Produce standalone XML
   -t TITLE         'Example Feed'
   -d DESCRIPTION   'Short description of the feed'
   -l LINK           http://example.net
-  -f GUID_FORMAT    blog/%.html  =>  http://example.net/blog/%s.html
+  -f FORMAT         blog/%.html  =>  http://example.net/blog/%s.html
   -w WEBMASTER     'webmaster@example.net (Real Name)'
   -c COPYRIGHT     'Year © Name, CC BY-SA 4.0'
   -n LANGUAGE       en-GB
