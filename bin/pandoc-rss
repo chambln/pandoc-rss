@@ -72,20 +72,6 @@ get_metadata_value ()
     printf %s\\n "$value"
 }
 
-# Print the guid element for an input_file.
-# e.g. guid_format=http://example.net/%s.html
-#      input_file=path/to/fox-in-socks.md
-#   => http://example.net/fox-in-socks.html
-get_guid ()
-{
-    [ -n "${guid_format-}" ] || return 1
-    input_file=$1
-    shift
-    filename=${input_file##*/}
-    basename=${filename%.*}
-    printf "$guid_format" "$basename"
-}
-
 get_date ()
 {
     input_file=$1
@@ -101,10 +87,14 @@ generate_feed_item ()
     input_file=$1
     shift
 
-    if guid=$(get_guid "$input_file")
-    then
-	set -- -V "guid:$guid" "$@"
-    fi
+    case $guid_format in
+	*%s*)
+	    filename=${input_file##*/}
+	    basename=${filename%.*}
+	    guid=$(printf "$guid_format" "$basename")
+	    set -- -V "guid:$guid" "$@"
+    esac
+
 
     if date=$(get_date "$input_file")
     then
