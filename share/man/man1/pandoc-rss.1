@@ -124,6 +124,25 @@ See \f[B]chfn\f[](1). Can be overridden by the environment variable
 or the
 .B \-w
 option.
+.SH SECURITY
+.SS CDATA injections
+.PP
+The document body is embedded within a CDATA block. CDATA blocks are
+vulnerable to an injection attack whereby the literal string
+\f[C]]]>\f[] is included in the HTML.  Fortunately, Pandoc encodes
+\f[C]]]>\f[] as \f[C]]]&gt;\f[] in HTML output to prevent this kind of
+attack. You can convince yourself of this by running the following
+command:
+.IP
+.nf
+\f[C]
+$\ echo\ \[aq]]]>\[aq]\ |\ pandoc
+<p>]]&gt;</p>
+\f[]
+.fi
+.SS Enclosures
+.PP
+These are not (yet) supported, so this is not an attack vector.
 .SH BUGS
 .PP
 Any relative links in the body of an
