@@ -99,29 +99,44 @@ Can be overridden by the
 .B \-w
 option.
 .TP
-.B LANG
-The natural language in which the feed items are written.
+.B NAME
+The real name of the person to contact about technical issues
+regarding the feed.
 Can be overridden by the
+.B \-w
+option.
+.TP
+.B LANG
+Used to infer the natural language in which the feed items are
+written.  Can be overridden by the
 .B \-n
 option.
-.SH NOTES
 .SH FILES
 .TP
 \f[I]$PREFIX\f[]/share/data/language\-codes
 Canonical list of valid RSS language codes, assuming the pandoc\-rss
 script is in \f[I]$PREFIX\f[]/bin.
+.TP
+/etc/passwd
+Parsed in an attempt to determine the webmaster’s real name.
+See \f[B]chfn\f[](1). Can be overridden by the environment variable
+.B NAME
+or the
+.B \-w
+option.
+.SH BUGS
 .PP
 Any relative links in the body of an
 .I input\-file
-will become relative links in the feed, which is not valid RSS.
-.SH BUGS
+will become relative links in the feed and therefore render the feed
+invalid.
 .SH EXAMPLES
 .IP
 .nf
 \f[C]
 pandoc\-rss \-t \[aq]Example Feed\[aq] \e
            \-l http://example.net \e
-           \-d \[aq]An example RSS feed for illustrative purposes.\[aq] \e
+           \-d \[aq]Generic RSS feed for illustrative purposes.\[aq] \e
            \-f blog/%s.html \e
     foo.md bar.md > feed.xml
 \f[R]
@@ -131,7 +146,7 @@ Gregory Chamberlain <greg@cosine.blue>
 .SH SEE ALSO
 .PP
 \f[B]pandoc\f[R](1),
-\f[B]date\f[R](1)
+\f[B]date\f[R](1),
+\f[B]chfn(1)\f[R]
 .PP
-.UL
-https://rssboard.org/rss-profile
+https://www.rssboard.org/
