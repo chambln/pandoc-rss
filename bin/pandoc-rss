@@ -28,10 +28,10 @@ get_language_code ()
 is_valid_language_code ()
 {
     arg=$(printf %s "$1" | tr [A-Z] [a-z])
-    while IFS=' 	' read -r code _
+    while IFS='         ' read -r code _
     do
-	[ x"$code" = x"#" ] && continue
-	[ x"$code" = x"$arg" ] && return 0
+        [ x"$code" = x"#" ] && continue
+        [ x"$code" = x"$arg" ] && return 0
     done < $share/data/language-codes
     return 1
 }
@@ -40,13 +40,13 @@ get_user_fullname ()
 {
     while IFS=':' read -r user _ _ _ gecos _
     do
-	if [ x"$user" = x"$LOGNAME" ]
-	then
-	    user_fullname="${gecos%%,*}"
-	    [ -n "$user_fullname" ] || exit 1
-	    printf %s\\n "$user_fullname"
-	    return 0
-	fi
+        if [ x"$user" = x"$LOGNAME" ]
+        then
+            user_fullname="${gecos%%,*}"
+            [ -n "$user_fullname" ] || exit 1
+            printf %s\\n "$user_fullname"
+            return 0
+        fi
     done < /etc/passwd
     return 1
 }
@@ -57,9 +57,9 @@ get_user_contact ()
     user_fullname="${NAME:-$(get_user_fullname)}"
     if [ -n "$user_fullname" ]
     then
-	printf '%s (%s)\n' "$EMAIL" "$user_fullname"
+        printf '%s (%s)\n' "$EMAIL" "$user_fullname"
     else
-	printf '%s\n' "$EMAIL"
+        printf '%s\n' "$EMAIL"
     fi
 }
 
@@ -78,7 +78,7 @@ get_date ()
     shift
     if date=$(get_metadata_value date "$input_file")
     then
-	/usr/bin/date --utc --date "$date" +'%a, %d %b %Y %T +0000'
+        /usr/bin/date --utc --date "$date" +'%a, %d %b %Y %T +0000'
     fi
 }
 
@@ -88,22 +88,22 @@ generate_feed_item ()
     shift
 
     case $guid_format in
-	*%s*)
-	    filename=${input_file##*/}
-	    basename=${filename%.*}
-	    guid=$(printf "$guid_format" "$basename")
-	    set -- -V "guid:$guid" "$@"
+        *%s*)
+            filename=${input_file##*/}
+            basename=${filename%.*}
+            guid=$(printf "$guid_format" "$basename")
+            set -- -V "guid:$guid" "$@"
     esac
 
 
     if date=$(get_date "$input_file")
     then
-	set -- -V "date:$date" "$@"
+        set -- -V "date:$date" "$@"
     fi
 
     if ${omit_body-false}
     then
-	set -- -V body: "$@"
+        set -- -V body: "$@"
     fi
 
     pandoc --template="$templates_dir/item.xml" "$@" "$input_file"
@@ -112,7 +112,7 @@ generate_feed_item ()
 generate_feed_items ()
 {
     for input_file do
-	generate_feed_item "$input_file"
+        generate_feed_item "$input_file"
     done
 }
 
@@ -129,25 +129,25 @@ generate_standalone_feed ()
     
     if [ -z "${channel_webmaster-}" ]
     then
-	if user_contact=$(get_user_contact)
-	then
-	    channel_webmaster=$user_contact
-	fi
+        if user_contact=$(get_user_contact)
+        then
+            channel_webmaster=$user_contact
+        fi
     fi
 
     if [ -z "$channel_language" ]
     then
-	if language_code=$(get_language_code)
-	then
-	    channel_language=$language_code
-	fi
+        if language_code=$(get_language_code)
+        then
+            channel_language=$language_code
+        fi
     fi
 
     if ! is_valid_language_code "$channel_language"
     then
-	>&2 printf 'Invalid language code: ‘%s’\n' "$channel_language"
-	>&2 printf 'See %s\n' "$share"/data/language-codes
-	exit 1
+        >&2 printf 'Invalid language code: ‘%s’\n' "$channel_language"
+        >&2 printf 'See %s\n' "$share"/data/language-codes
+        exit 1
     fi
 
     echo '<?xml version="1.0" encoding="UTF-8" ?>'
@@ -170,16 +170,16 @@ guid_optarg=auto
 while getopts t:l:d:w:c:n:of:hs name
 do
     case "$name" in
-	t)  channel_title=$OPTARG ;;
-	l)  channel_link=${OPTARG%/} ;;
-	d)  channel_description=$OPTARG ;;
-	w)  channel_webmaster=$OPTARG ;;
-	c)  channel_copyright=$OPTARG ;;
-	n)  channel_language=$OPTARG ;;
-	o)  omit_body=true ;;
-	f)  guid_optarg=$OPTARG ;;
-	h)  usage; exit ;;
-	s)  standalone=true ;;
+        t)  channel_title=$OPTARG ;;
+        l)  channel_link=${OPTARG%/} ;;
+        d)  channel_description=$OPTARG ;;
+        w)  channel_webmaster=$OPTARG ;;
+        c)  channel_copyright=$OPTARG ;;
+        n)  channel_language=$OPTARG ;;
+        o)  omit_body=true ;;
+        f)  guid_optarg=$OPTARG ;;
+        h)  usage; exit ;;
+        s)  standalone=true ;;
     esac
 done
 shift $((OPTIND - 1))
@@ -196,12 +196,12 @@ case $guid_optarg in
     omit)      guid_format= ;;
     *://*%s*)  guid_format=$guid_optarg ;;
     *%s*)      if [ -n "${channel_link-}" ]
-	       then
-		   guid_format=$channel_link/${guid_optarg#/}
-	       fi
-	       ;;
+               then
+                   guid_format=$channel_link/${guid_optarg#/}
+               fi
+               ;;
     *)         >&2 printf 'Invalid guid format ‘%s’\n' "$guid_optarg"
-	       exit 1
+               exit 1
 esac
 
 if ${standalone-false}
