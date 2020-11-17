@@ -184,7 +184,7 @@ do
 done
 shift $((OPTIND - 1))
 
-share=${0%bin/${0##*/}}share/${0##*/}
+share=${0%/*}/../share/${0##*/}
 templates_dir=$share/data/templates
 
 domain=${domain-${PWD##*/}}
