@@ -171,9 +171,9 @@ generate_standalone_feed ()
 }
 
 guid_optarg=auto
-while getopts t:l:d:w:c:n:of:hs name
+while getopts t:l:d:w:c:n:of:hs OPT
 do
-    case "$name" in
+    case "$OPT" in
         t)  channel_title=$OPTARG ;;
         l)  channel_link=${OPTARG%/} ;;
         d)  channel_description=$OPTARG ;;
