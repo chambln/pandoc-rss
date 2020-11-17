@@ -7,8 +7,6 @@ It is implemented in POSIX shell, though GNU date(1) is needed to
 transform date metadata to conform with [RSS Best Practices section
 3.2](https://www.rssboard.org/rss-profile#data-types-datetime).
 
-**Note:** This is alpha software and there may be breaking changes.
-
 ## Usage
 
 See pandoc-rss(1).
