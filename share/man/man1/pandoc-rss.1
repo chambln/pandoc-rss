@@ -1,0 +1,173 @@
+.TH PANDOC\-RSS 1 "July 2020"
+.SH NAME
+pandoc\-rss \- Feed generator
+.SH SYNOPSIS
+.PP
+\f[B]pandoc\-rss\f[R] [\f[I]options\f[R]] [\f[I]input\-file\f[R]]...
+.PP
+\f[B]pandoc\-rss \-s\f[R] [\f[I]options\f[R]] [\f[I]input\-file\f[R]]...
+\f[B]>\f[R]\f[I]feed.xml\f[R]
+.SH DESCRIPTION
+.PP
+The
+.B pandoc\-rss
+utility generates an RSS feed from a series of input files.  Each
+\f[I]input\-file\f[R] corresponds to a feed item, and must be written
+in a markup language that can be read by Pandoc.
+.PP
+GNU \f[B]date\f[R](1) is used to transform dates to conform with RSS
+best practices. Therefore, the date metadata of each
+\f[I]input\-file\f[R] must be written in a form that will be
+interpretted correctly by GNU date.
+.SH OPTIONS
+.TP
+.B \-s
+Produce a standalone XML file.
+.IP
+Without this, only item fragments are produced.
+.TP
+\f[B]\-t\f[R] \f[I]title\f[R]
+The name of the feed.
+.TP
+\f[B]\-l\f[R] \f[I]link\f[R]
+The URL of the web site associated with the feed.
+.TP
+\f[B]\-d\f[R] \f[I]description\f[R]
+A short characterization or summary of the feed.
+.TP
+\f[B]\-n\f[] \f[I]language\f[]
+The language code of the natural language in which the feed items are
+written.
+.IP
+Without this, pandoc-rss infers the language from the LANG environment
+variable.
+.TP
+\f[B]\-w\f[] \f[I]webmaster\@example.net\f[]
+.PD 0
+.TP
+.PD
+\f[B]\-w\f[] \[aq]\f[I]webmaster\@example.net\f[] \f[B](\f[]\f[I]Real Name\f[]\f[B])\f[]\[aq]
+The e-mail address (and optionally real name) for the person to
+contact about technical issues regarding the feed. Without this,
+pandoc-rss will fall back on the EMAIL environment variable, if
+non-empty, and the user\[cq]s GECOS field in /etc/passwd.
+.TP
+\f[B]\-c\f[] \f[I]copyright\f[]
+Copyright statement that applies to the feed.  Without
+.BR \-c ,
+the default is \[oq]GPLv3+ or CC BY-SA 4.0\[cq]
+.TP
+\f[B]\-f\f[R] [\f[I]format\f[R]|\f[B]auto\f[]|\f[B]omit\f[]]
+Format or omit the guid.
+Without this, default to \f[B]auto\f[] which is equivalent to a
+.I format
+of \[oq]%s.html\[cq].
+.IP
+.I format
+must contain \[oq]%s\[cq] and can be an absolute URI or relative to
+the channel \f[I]link\f[]. To include a literal percent sign, use
+\[oq]%%\[cq].
+.IP
+For example, if an
+.I input\-file
+\[oq]foo.md\[cq] is available at
+\[oq]http://example.net/blog/foo\[cq], then you should use
+.B \-l http://example.net \-f blog/%s
+or if it is
+available at \[oq]http://blog.example.net/foo.html\[cq] you should use
+\f[B]\-f http://blog.example.net/%s.html\f[].
+.B 
+.TP
+.B \-p
+Indicate that guids should not be regarded as permalinks.
+.TP
+.B \-o
+Omit the document body for all \f[I]input-file\f[]s.
+.IP
+Without \f[B]-o\f[], default behaviour is to render each
+.I input\-file
+as HTML using Pandoc and embed it in the feed. This way, one can read
+the entire document offline and from the comfort of one\[cq]s feed
+reader.
+.TP
+.B \-h
+Print a help message.
+.SH ENVIRONMENT
+.TP
+.B EMAIL
+The e\-mail address for the person to contact about technical issues
+regarding the feed.
+Can be overridden by the
+.B \-w
+option.
+.TP
+.B NAME
+The real name of the person to contact about technical issues
+regarding the feed.
+Can be overridden by the
+.B \-w
+option.
+.TP
+.B LANG
+Used to infer the natural language in which the feed items are
+written.  Can be overridden by the
+.B \-n
+option.
+.SH FILES
+.TP
+\f[I]$PREFIX\f[]/share/data/language\-codes
+Canonical list of valid RSS language codes, assuming the pandoc\-rss
+script is in \f[I]$PREFIX\f[]/bin.
+.TP
+/etc/passwd
+Parsed in an attempt to determine the webmaster’s real name.
+See \f[B]chfn\f[](1). Can be overridden by the environment variable
+.B NAME
+or the
+.B \-w
+option.
+.SH SECURITY
+.SS CDATA injections
+.PP
+The document body is embedded within a CDATA block. CDATA blocks are
+vulnerable to an injection attack whereby the literal string
+\f[C]]]>\f[] is included in the HTML.  Fortunately, Pandoc encodes
+\f[C]]]>\f[] as \f[C]]]&gt;\f[] in HTML output to prevent this kind of
+attack. You can convince yourself of this by running the following
+command:
+.IP
+.nf
+\f[C]
+$\ echo\ \[aq]]]>\[aq]\ |\ pandoc
+<p>]]&gt;</p>
+\f[]
+.fi
+.SS Enclosures
+.PP
+These are not (yet) supported, so this is not an attack vector.
+.SH BUGS
+.PP
+Any relative links in the body of an
+.I input\-file
+will become relative links in the feed and therefore render the feed
+invalid.
+.SH EXAMPLES
+.IP
+.nf
+\f[C]
+pandoc\-rss \-t \[aq]Example Feed\[aq] \e
+           \-l http://example.net \e
+           \-d \[aq]Generic RSS feed for illustrative purposes.\[aq] \e
+           \-f blog/%s.html \e
+    foo.md bar.md > feed.xml
+\f[R]
+.fi
+.SH AUTHORS
+Gregory Chamberlain <greg\@cosine.blue>
+.SH SEE ALSO
+.PP
+\f[B]pandoc\f[R](1),
+\f[B]date\f[R](1),
+\f[B]chfn(1)\f[R]
+.PP
+https://www.rssboard.org/

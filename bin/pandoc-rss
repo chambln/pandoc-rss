@@ -1,0 +1,200 @@
+#!/bin/sh
+
+SHARE=${0%/*}/../share/${0##*/}
+TEMPLATES_DIR=$SHARE/data/templates
+DOMAIN=${PWD##*/}
+EMAIL=${EMAIL:-webmaster@$DOMAIN}
+
+usage ()
+{
+    cat <<EOF
+Usage: ${0##*/} [OPTIONS] [FILE]...
+  -s                Produce standalone XML
+  -t TITLE         'Example Feed'
+  -d DESCRIPTION   'Short description of the feed'
+  -l LINK           http://example.net
+  -f FORMAT         blog/%.html  =>  http://example.net/blog/%s.html
+  -w WEBMASTER     'webmaster@example.net (Real Name)'
+  -c COPYRIGHT     'Year © Name, CC BY-SA 4.0'
+  -n LANGUAGE       en-GB
+EOF
+}
+
+get_language_code ()
+{
+    [ -n "$LANG" ] || exit 1
+    code=${LANG%%.*}
+    primary_code=${code%%_*}
+    subcode=${code#$primary_code}
+    subcode=${subcode#_}
+    printf %s\\n "$primary_code${subcode:+-$subcode}"
+}
+
+is_valid_language_code ()
+{
+    arg=$(printf %s "$1" | tr [A-Z] [a-z])
+    while IFS=' 	' read -r code _
+    do
+        [ x"$code" = x"#" ] && continue
+        [ x"$code" = x"$arg" ] && return 0
+    done < $SHARE/data/language-codes
+    return 1
+}
+
+get_user_fullname ()
+{
+    while IFS=':' read -r user _ _ _ gecos _
+    do
+        if [ x"$user" = x"$LOGNAME" ]
+        then
+            user_fullname="${gecos%%,*}"
+            [ -n "$user_fullname" ] || exit 1
+            printf %s\\n "$user_fullname"
+            return 0
+        fi
+    done < /etc/passwd
+    return 1
+}
+
+get_user_contact ()
+{
+    user_fullname="${NAME:-$(get_user_fullname)}"
+    printf '%s\n' "$EMAIL${user_fullname:+ ($user_fullname)}"
+}
+
+get_metadata_value ()
+{
+    key=$1
+    shift
+    value=$(pandoc --template="$TEMPLATES_DIR/$key.value" "$@")
+    [ -n "$value" ] || return 1
+    printf %s\\n "$value"
+}
+
+get_date ()
+{
+    input_file=$1
+    shift
+    if date=$(get_metadata_value date "$input_file")
+    then
+        /usr/bin/date --utc --date "$date" +'%a, %d %b %Y %T +0000'
+    fi
+}
+
+generate_feed_item ()
+{
+    input_file=$1
+    shift
+
+    case $guid_format in
+        *%s*)
+            filename=${input_file##*/}
+            basename=${filename%.*}
+            guid=$(printf "$guid_format" "$basename")
+            set -- -V "guid:$guid" "$@"
+    esac
+
+
+    if date=$(get_date "$input_file")
+    then
+        set -- -V "date:$date" "$@"
+    fi
+
+    if $omit_body
+    then
+        set -- -V body: "$@"
+    fi
+
+    pandoc --template="$TEMPLATES_DIR/item.xml" "$@" "$input_file"
+}
+
+generate_feed_items ()
+{
+    for input_file do
+        generate_feed_item "$input_file"
+    done
+}
+
+print_xml_element ()
+{
+    [ -n "$2" ] || return 1
+    printf '<%s>%s</%s>\n' "$1" "$2" "$1"
+}
+
+generate_standalone_feed ()
+{
+    if [ -z "$channel_language" ]
+    then
+        if language_code=$(get_language_code)
+        then
+            channel_language=$language_code
+        fi
+    fi
+
+    if ! is_valid_language_code "$channel_language"
+    then
+        >&2 printf 'Invalid language code: ‘%s’\n' "$channel_language"
+        >&2 printf 'See %s\n' "$SHARE"/data/language-codes
+        exit 1
+    fi
+
+    echo '<?xml version="1.0" encoding="UTF-8" ?>'
+    echo '<rss version="2.0">'
+    echo '<channel>'
+    print_xml_element title "$channel_title"
+    print_xml_element link "$channel_link"
+    print_xml_element description "$channel_description"
+    print_xml_element language "$channel_language"
+    print_xml_element webMaster "${channel_webmaster:=$(get_user_contact)}"
+    print_xml_element copyright "$channel_copyright"
+    print_xml_element docs https://www.rssboard.org/rss-specification
+    echo '<generator>Pandoc RSS</generator>'
+    generate_feed_items "$@"
+    echo '</channel>'
+    echo '</rss>'
+}
+
+channel_title=$DOMAIN
+channel_link=https://$DOMAIN
+channel_description="Posts from $DOMAIN"
+unset channel_webmaster
+channel_copyright='GPLv3+ or CC BY-SA 4.0'
+unset channel_language
+omit_body=false
+guid_optarg=auto
+standalone=false
+while getopts t:l:d:w:c:n:of:hs OPT
+do
+    case "$OPT" in
+        t)  channel_title=$OPTARG ;;
+        l)  channel_link=${OPTARG%/} ;;
+        d)  channel_description=$OPTARG ;;
+        w)  channel_webmaster=$OPTARG ;;
+        c)  channel_copyright=$OPTARG ;;
+        n)  channel_language=$OPTARG ;;
+        o)  omit_body=true ;;
+        f)  guid_optarg=$OPTARG ;;
+        s)  standalone=true ;;
+        ?)  usage; exit 2 ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+case $guid_optarg in
+    auto) guid_optarg=%s.html
+esac
+case $guid_optarg in
+    omit)      guid_format= ;;
+    *://*%s*)  guid_format=$guid_optarg ;;
+    *%s*)      [ "$channel_link" ] &&
+                   guid_format=$channel_link/${guid_optarg#/} ;;
+    *)         >&2 printf 'Invalid guid format ‘%s’\n' "$guid_optarg"
+               exit 1
+esac
+
+if $standalone
+then
+    generate_standalone_feed "$@"
+else
+    generate_feed_items "$@"
+fi
