@@ -1,20 +1,40 @@
-# Pandoc RSS
+# pandoc-rss
 
-This is a simple script that can generate an RSS feed from the content
-and metadata of markup files.
+pandoc-rss is a command-line utility for generating partial or
+complete RSS feeds from the content and metadata of markup files.
+Any markup format which can be read by Pandoc will do.
 
-It is implemented in POSIX shell, though GNU date(1) is needed to
-transform date metadata to conform with [RSS Best Practices section
-3.2](https://www.rssboard.org/rss-profile#data-types-datetime).
+It is implemented as a shell script using only the shell command
+language sh(1) and other utilities specified by POSIX with the sole
+exception that GNU date(1) is used to transform date metadata to
+conform with [RSS Best Practices section
+3.2](https://www.rssboard.org/rss-profile#data-types-datetime).  Any
+other non-POSIX code would be considered a bug.  If you're certain
+your markup files conform to the standard date format then you can
+easily patch the script and drop this dependency.
 
 ## Usage
 
-See pandoc-rss(1).
+    pandoc-rss [OPTIONS] [FILE]...
 
-## Bugs and notes
+where each `FILE` corresponds to a feed item and `OPTIONS` are any
+combination of the following:
 
-  - Not tested with filenames that have spaces or other characters
-    considered special in URLs.
+      -s                Produce standalone XML
+      -t TITLE         'Example Feed'
+      -d DESCRIPTION   'Short description of the feed'
+      -l LINK           http://example.net
+      -f FORMAT         blog/%s.html  =>  http://example.net/blog/%s.html
+      -w WEBMASTER     'webmaster@example.net (Real Name)'
+      -c COPYRIGHT     'Year © Name, CC BY-SA 4.0'
+      -n LANGUAGE       en-GB
+
+With `-s` you should consider specifying `-t`, `-d`, `-l`, `-w`, `-c`
+and `-n` as well (the defaults are guesswork based on `$PWD` and other
+environment variables like `$EMAIL`).
+
+See pandoc-rss(1) for detailed information -- you can run `man
+share/man/man1/pandoc-rss.1` to read this without installing it.
 
 ## To-do
 
