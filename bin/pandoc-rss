@@ -178,8 +178,8 @@ do
         n)  channel_language=$OPTARG ;;
         o)  omit_body=true ;;
         f)  guid_optarg=$OPTARG ;;
-        h)  usage; exit ;;
         s)  standalone=true ;;
+        ?)  usage; exit 2 ;;
     esac
 done
 shift $((OPTIND - 1))
