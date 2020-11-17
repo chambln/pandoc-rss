@@ -158,7 +158,7 @@ channel_title=$DOMAIN
 channel_link=https://$DOMAIN
 channel_description="Posts from $DOMAIN"
 unset channel_webmaster
-channel_copyright='GPLv3+ or CC BY-SA 4.0'
+unset channel_copyright
 unset channel_language
 omit_body=false
 guid_optarg=auto
