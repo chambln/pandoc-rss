@@ -36,6 +36,12 @@ environment variables like `$EMAIL`).
 See pandoc-rss(1) for detailed information -- you can run `man
 share/man/man1/pandoc-rss.1` to read this without installing it.
 
+## Bugs and notes
+
+  - RSS enclosures are not supported.  Nobody uses them anyway.
+  - Any relative links in the body of an input-file will become
+    relative links in the feed and therefore render the feed invalid.
+
 ## To-do
 
   - [x] Add options for specifying channel title, link and description
