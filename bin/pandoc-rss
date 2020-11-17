@@ -59,12 +59,7 @@ get_user_fullname ()
 get_user_contact ()
 {
     user_fullname="${NAME:-$(get_user_fullname)}"
-    if [ -n "$user_fullname" ]
-    then
-        printf '%s (%s)\n' "$EMAIL" "$user_fullname"
-    else
-        printf '%s\n' "$EMAIL"
-    fi
+    printf '%s\n' "$EMAIL${user_fullname:+ ($user_fullname)}"
 }
 
 get_metadata_value ()
@@ -105,7 +100,7 @@ generate_feed_item ()
         set -- -V "date:$date" "$@"
     fi
 
-    if ${omit_body-false}
+    if $omit_body
     then
         set -- -V body: "$@"
     fi
@@ -128,17 +123,6 @@ print_xml_element ()
 
 generate_standalone_feed ()
 {
-    channel_title=${channel_title-$DOMAIN}
-    channel_description=${channel_description:-Posts from $DOMAIN}
-    
-    if [ -z "${channel_webmaster-}" ]
-    then
-        if user_contact=$(get_user_contact)
-        then
-            channel_webmaster=$user_contact
-        fi
-    fi
-
     if [ -z "$channel_language" ]
     then
         if language_code=$(get_language_code)
@@ -161,7 +145,7 @@ generate_standalone_feed ()
     print_xml_element link "$channel_link"
     print_xml_element description "$channel_description"
     print_xml_element language "$channel_language"
-    print_xml_element webMaster "$channel_webmaster"
+    print_xml_element webMaster "${channel_webmaster:=$(get_user_contact)}"
     print_xml_element copyright "$channel_copyright"
     print_xml_element docs https://www.rssboard.org/rss-specification
     echo '<generator>Pandoc RSS</generator>'
@@ -170,7 +154,15 @@ generate_standalone_feed ()
     echo '</rss>'
 }
 
+channel_title=$DOMAIN
+channel_link=https://$DOMAIN
+channel_description="Posts from $DOMAIN"
+unset channel_webmaster
+channel_copyright='GPLv3+ or CC BY-SA 4.0'
+unset channel_language
+omit_body=false
 guid_optarg=auto
+standalone=false
 while getopts t:l:d:w:c:n:of:hs OPT
 do
     case "$OPT" in
@@ -188,23 +180,19 @@ do
 done
 shift $((OPTIND - 1))
 
-channel_link=${channel_link-https://$DOMAIN}
 case $guid_optarg in
     auto) guid_optarg=%s.html
 esac
 case $guid_optarg in
     omit)      guid_format= ;;
     *://*%s*)  guid_format=$guid_optarg ;;
-    *%s*)      if [ -n "${channel_link-}" ]
-               then
-                   guid_format=$channel_link/${guid_optarg#/}
-               fi
-               ;;
+    *%s*)      [ "$channel_link" ] &&
+                   guid_format=$channel_link/${guid_optarg#/} ;;
     *)         >&2 printf 'Invalid guid format ‘%s’\n' "$guid_optarg"
                exit 1
 esac
 
-if ${standalone-false}
+if $standalone
 then
     generate_standalone_feed "$@"
 else
