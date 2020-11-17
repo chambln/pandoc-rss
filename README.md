@@ -27,7 +27,9 @@ See pandoc-rss(1).
   - [x] Infer the guid/permalink format based on the channel link; for
     example if the channel link is `http://example.net` then the
     format is `http://example.net/%s.html`.
-  - [ ] With no input-file, read file names line-by-line from stdin
+  - [x] Finish writing the man page
+  - [ ] With input-file "-" read file names line-by-line from stdin
+  - [ ] With no input-file, print the usage message
   - [ ] Instead of using a CDATA block, encode special characters in
     the body text as HTML entities.
 	
@@ -35,7 +37,6 @@ See pandoc-rss(1).
     Pandoc simply replaces `$body$` with the rendered HTML; I’m not
     sure how we could intercept that process to escape all `[&<>]`
     characters as required.
-  - [ ] Finish writing the man page
   - [ ] Print warnings about relative links in the description element
     (this is non-trivial). Or better, use the channel link as a base
     for relative links. Perhaps only do this with an explicit option,
