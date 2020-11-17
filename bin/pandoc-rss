@@ -28,7 +28,7 @@ get_language_code ()
 is_valid_language_code ()
 {
     arg=$(printf %s "$1" | tr [A-Z] [a-z])
-    while IFS='         ' read -r code _
+    while IFS=' 	' read -r code _
     do
         [ x"$code" = x"#" ] && continue
         [ x"$code" = x"$arg" ] && return 0
