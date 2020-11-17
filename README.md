@@ -36,6 +36,14 @@ environment variables like `$EMAIL`).
 See pandoc-rss(1) for detailed information -- you can run `man
 share/man/man1/pandoc-rss.1` to read this without installing it.
 
+### Example
+
+    pandoc-rss -t 'Example Feed' \
+               -l http://example.net \
+               -d 'Generic RSS feed for illustrative purposes.' \
+               -f blog/%s.html \
+        foo.md bar.md > feed.xml
+
 ## Bugs and notes
 
   - RSS enclosures are not supported.  Nobody uses them anyway.
