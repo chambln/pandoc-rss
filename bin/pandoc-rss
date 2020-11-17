@@ -1,5 +1,9 @@
 #!/bin/sh
 
+SHARE=${0%/*}/../share/${0##*/}
+TEMPLATES_DIR=$SHARE/data/templates
+DOMAIN=${PWD##*/}
+
 usage ()
 {
     cat <<EOF
@@ -32,7 +36,7 @@ is_valid_language_code ()
     do
         [ x"$code" = x"#" ] && continue
         [ x"$code" = x"$arg" ] && return 0
-    done < $share/data/language-codes
+    done < $SHARE/data/language-codes
     return 1
 }
 
@@ -67,7 +71,7 @@ get_metadata_value ()
 {
     key=$1
     shift
-    value=$(pandoc --template="$templates_dir/$key.value" "$@")
+    value=$(pandoc --template="$TEMPLATES_DIR/$key.value" "$@")
     [ -n "$value" ] || return 1
     printf %s\\n "$value"
 }
@@ -106,7 +110,7 @@ generate_feed_item ()
         set -- -V body: "$@"
     fi
 
-    pandoc --template="$templates_dir/item.xml" "$@" "$input_file"
+    pandoc --template="$TEMPLATES_DIR/item.xml" "$@" "$input_file"
 }
 
 generate_feed_items ()
@@ -124,8 +128,8 @@ print_xml_element ()
 
 generate_standalone_feed ()
 {
-    channel_title=${channel_title-$domain}
-    channel_description=${channel_description:-Posts from $domain}
+    channel_title=${channel_title-$DOMAIN}
+    channel_description=${channel_description:-Posts from $DOMAIN}
     
     if [ -z "${channel_webmaster-}" ]
     then
@@ -146,7 +150,7 @@ generate_standalone_feed ()
     if ! is_valid_language_code "$channel_language"
     then
         >&2 printf 'Invalid language code: ‘%s’\n' "$channel_language"
-        >&2 printf 'See %s\n' "$share"/data/language-codes
+        >&2 printf 'See %s\n' "$SHARE"/data/language-codes
         exit 1
     fi
 
@@ -184,11 +188,7 @@ do
 done
 shift $((OPTIND - 1))
 
-share=${0%/*}/../share/${0##*/}
-templates_dir=$share/data/templates
-
-domain=${domain-${PWD##*/}}
-channel_link=${channel_link-https://$domain}
+channel_link=${channel_link-https://$DOMAIN}
 case $guid_optarg in
     auto) guid_optarg=%s.html
 esac
