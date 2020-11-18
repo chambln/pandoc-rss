@@ -15,35 +15,28 @@ easily patch the script and drop this dependency.
 
 ## Usage
 
-    pandoc-rss [OPTIONS] [FILE]...
+> **pandoc-rss** [*options*] [*file*]...
 
-where each `FILE` corresponds to a feed item.  Some of the `OPTIONS`
-are as follows:
+where each *file* corresponds to a feed item.  Items in the resulting
+XML appear in the order they were given on the command-line.
 
-| OPTION           | EXAMPLE                                             |
-| ---------------- | --------------------------------------------------- |
-| `-s`             | Produce standalone XML                              |
-| `-t TITLE`       | `Example Feed`                                      |
-| `-d DESCRIPTION` | `Short description of the feed`                     |
-| `-l LINK`        | `http://example.net`                                |
-| `-f FORMAT`      | `blog/%s.html` → `http://example.net/blog/%s.html`  |
-| `-w WEBMASTER`   | `webmaster@example.net (Real Name)`                 |
-| `-c COPYRIGHT`   | `Year © Name, CC BY-SA 4.0`                         |
-
-With `-s` you should consider specifying `-t`, `-d`, `-l`, `-w`, `-c`
-and `-n` as well (the defaults are guesswork based on `$PWD` and other
-environment variables like `$EMAIL`).
-
-See pandoc-rss(1) for detailed information -- you can run `man
+See pandoc-rss(1) for more detailed information -- you can run `man
 share/man/man1/pandoc-rss.1` to read this without installing it.
 
 ### Example
 
-    pandoc-rss -t 'Example Feed' \
-               -l http://example.net \
-               -d 'Generic RSS feed for illustrative purposes.' \
-               -f blog/%s.html \
-        foo.md bar.md > feed.xml
+For example I could generate my blog and corresponding RSS feed using
+something like the following:
+
+    $ pandoc --template=page -o foo.html foo.md
+    $ pandoc --template=page -o bar.html bar.md
+    $ pandoc-rss foo.md bar.md > rss.xml \
+        -t cosine.blue \
+        -d 'Blog by Gregory Chamberlain' \
+        -l https://cosine.blue \
+        -c 'GPLv3+ or CC BY-SA 4.0' \
+        -w 'greg@cosine.blue' \
+        -n en-GB
 
 ## Bugs and notes
 
