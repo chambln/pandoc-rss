@@ -28,8 +28,8 @@ Complete valid XML feed:
 > [**‑w** "*webmaster@example.net* (*Real Name*)" ]
 > [**‑c** *copyright*] *input‑file*... **>** *feed.xml*
 
-where each *file* corresponds to a feed item.  Items in the resulting
-XML appear in the order they were given on the command-line.
+where each *input-file* corresponds to a feed item.  Items in the
+resulting XML appear in the order they were given on the command-line.
 
 See pandoc-rss(1) for more detailed information—you can run `man
 share/man/man1/pandoc-rss.1` to read this without installing it.
