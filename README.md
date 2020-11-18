@@ -15,7 +15,14 @@ easily patch the script and drop this dependency.
 
 ## Usage
 
-> **pandoc-rss** [*options*] [*file*]...
+> **pandoc‑rss** [**‑hop**] [**‑f** *format*|auto|omit]
+> [**‑l** *link*] *input‑file*...
+>
+> **pandoc‑rss** **‑s** [‑**hop**] [**‑f** *format*|auto|omit]
+> [**‑l** *link*] [**‑t** *title*] [**‑d** *description*]
+> [**‑n** *language*]
+> [**‑w** <b>"</b><i>webmaster@example.net</i>[ <b>(</b><i>Real Name</i><b>)</b>]<b>"</b>]
+> [**‑c** *copyright*] *input‑file*... **>** *feed.xml*
 
 where each *file* corresponds to a feed item.  Items in the resulting
 XML appear in the order they were given on the command-line.
