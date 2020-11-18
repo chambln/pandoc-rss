@@ -21,7 +21,7 @@ easily patch the script and drop this dependency.
 > **pandoc‑rss** **‑s** [‑**hop**] [**‑f** *format*|auto|omit]
 > [**‑l** *link*] [**‑t** *title*] [**‑d** *description*]
 > [**‑n** *language*]
-> [**‑w** <b>"</b><i>webmaster@example.net</i>[ <b>(</b><i>Real Name</i><b>)</b>]<b>"</b>]
+> [**‑w** "*webmaster@example.net* (*Real Name*)" ]
 > [**‑c** *copyright*] *input‑file*... **>** *feed.xml*
 
 where each *file* corresponds to a feed item.  Items in the resulting
