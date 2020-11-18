@@ -3,10 +3,34 @@
 pandoc\-rss \- Feed generator
 .SH SYNOPSIS
 .PP
-\f[B]pandoc\-rss\f[R] [\f[I]options\f[R]] [\f[I]input\-file\f[R]]...
+.B pandoc\-rss
+.RB [ \-hop ]
+.RB [ \-f
+.BR \f[I]format\f[] | auto | omit ]
+.RB [ \-l
+.IR link ]
+.IR input\-file ...
 .PP
-\f[B]pandoc\-rss \-s\f[R] [\f[I]options\f[R]] [\f[I]input\-file\f[R]]...
-\f[B]>\f[R]\f[I]feed.xml\f[R]
+.B pandoc\-rss \-s
+.RB [ \-hop ]
+.RB [ \-f
+.BR \f[I]format\f[] | auto | omit ]
+.RB [ \-l
+.IR link ]
+.RB [ \-t
+.IR title ]
+.RB [ \-d
+.IR description ]
+.RB [ \-n
+.IR language ]
+.RB [ \-w
+.IR webmaster@example.net [
+.BI ( "Real Name"
+.BR ) ]]
+.RB [ \-c
+.IR copyright ]
+.IR input\-file ...
+.BI > feed.xml
 .SH DESCRIPTION
 .PP
 The
