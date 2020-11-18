@@ -36,8 +36,9 @@ share/man/man1/pandoc-rss.1` to read this without installing it.
 
 ### Example
 
-For example I could generate my blog and corresponding RSS feed using
-something like the following:
+For example I could render two blog articles `foo.md` and `bar.md`
+along with the corresponding `rss.xml` feed using something like the
+following:
 
     $ pandoc --template=page -o foo.html foo.md
     $ pandoc --template=page -o bar.html bar.md
