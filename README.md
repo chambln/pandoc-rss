@@ -20,14 +20,15 @@ easily patch the script and drop this dependency.
 where each `FILE` corresponds to a feed item.  Some of the `OPTIONS`
 are as follows:
 
-      -s                Produce standalone XML
-      -t TITLE         'Example Feed'
-      -d DESCRIPTION   'Short description of the feed'
-      -l LINK           http://example.net
-      -f FORMAT         blog/%s.html  =>  http://example.net/blog/%s.html
-      -w WEBMASTER     'webmaster@example.net (Real Name)'
-      -c COPYRIGHT     'Year © Name, CC BY-SA 4.0'
-      -n LANGUAGE       en-GB
+| OPTION           | EXAMPLE                                             |
+| ---------------- | --------------------------------------------------- |
+| `-s`             | Produce standalone XML                              |
+| `-t TITLE`       | `Example Feed`                                      |
+| `-d DESCRIPTION` | `Short description of the feed`                     |
+| `-l LINK`        | `http://example.net`                                |
+| `-f FORMAT`      | `blog/%s.html` → `http://example.net/blog/%s.html`  |
+| `-w WEBMASTER`   | `webmaster@example.net (Real Name)`                 |
+| `-c COPYRIGHT`   | `Year © Name, CC BY-SA 4.0`                         |
 
 With `-s` you should consider specifying `-t`, `-d`, `-l`, `-w`, `-c`
 and `-n` as well (the defaults are guesswork based on `$PWD` and other
