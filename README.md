@@ -17,8 +17,8 @@ easily patch the script and drop this dependency.
 
     pandoc-rss [OPTIONS] [FILE]...
 
-where each `FILE` corresponds to a feed item and `OPTIONS` are any
-combination of the following:
+where each `FILE` corresponds to a feed item.  Some of the `OPTIONS`
+are as follows:
 
       -s                Produce standalone XML
       -t TITLE         'Example Feed'
