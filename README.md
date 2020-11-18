@@ -15,9 +15,13 @@ easily patch the script and drop this dependency.
 
 ## Usage
 
+Partial feed of item fragments:
+
 > **pandoc‑rss** [**‑hop**] [**‑f** *format*|auto|omit]
 > [**‑l** *link*] *input‑file*...
->
+
+Complete valid XML feed:
+
 > **pandoc‑rss** **‑s** [‑**hop**] [**‑f** *format*|auto|omit]
 > [**‑l** *link*] [**‑t** *title*] [**‑d** *description*]
 > [**‑n** *language*]
@@ -27,7 +31,7 @@ easily patch the script and drop this dependency.
 where each *file* corresponds to a feed item.  Items in the resulting
 XML appear in the order they were given on the command-line.
 
-See pandoc-rss(1) for more detailed information -- you can run `man
+See pandoc-rss(1) for more detailed information—you can run `man
 share/man/man1/pandoc-rss.1` to read this without installing it.
 
 ### Example
