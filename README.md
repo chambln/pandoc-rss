@@ -46,7 +46,7 @@ something like the following:
         -d 'Blog by Gregory Chamberlain' \
         -l https://cosine.blue \
         -c 'GPLv3+ or CC BY-SA 4.0' \
-        -w 'greg@cosine.blue' \
+        -w 'greg@cosine.blue (Gregory Chamberlain)' \
         -n en-GB
 
 ## Bugs and notes
