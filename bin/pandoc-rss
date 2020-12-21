@@ -148,7 +148,7 @@ generate_standalone_feed ()
     print_xml_element webMaster "${channel_webmaster:=$(get_user_contact)}"
     print_xml_element copyright "$channel_copyright"
     print_xml_element docs https://www.rssboard.org/rss-specification
-    echo '<generator>Pandoc RSS</generator>'
+    echo '<generator>pandoc-rss</generator>'
     generate_feed_items "$@"
     echo '</channel>'
     echo '</rss>'
