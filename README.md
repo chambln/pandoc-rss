@@ -13,6 +13,8 @@ other non-POSIX code would be considered a bug.  If you're certain
 your markup files conform to the standard date format then you can
 easily patch the script and drop this dependency.
 
+There is no official affiliation between pandoc-rss and Pandoc.
+
 ## Usage
 
 Partial feed of item fragments:
