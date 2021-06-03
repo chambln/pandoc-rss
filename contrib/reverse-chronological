@@ -1,0 +1,10 @@
+#!/bin/sh
+
+SHARE=${0%/*}/../share/pandoc-rss
+
+for i; do
+    printf '%s ' "$i"
+    pandoc --template="$SHARE"/data/templates/date.value "$i"
+done | while IFS=' ' read i d; do
+    printf '%s\t%s\n' "$(date -d "$d" +%Y%m%d%T)" "$i"
+done | LANG= sort -r | cut -f2
