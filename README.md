@@ -15,6 +15,16 @@ easily patch the script and drop this dependency.
 
 There is no official affiliation between pandoc-rss and Pandoc.
 
+## Installation
+
+System-wide installation as root:
+
+    make install
+
+Install for your user only:
+
+    make PREFIX=~/.local install
+
 ## Usage
 
 Partial feed of item fragments:
