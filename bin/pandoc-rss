@@ -94,7 +94,6 @@ generate_feed_item ()
             set -- -V "guid:$guid" "$@"
     esac
 
-
     if date=$(get_date "$input_file")
     then
         set -- -V "date:$date" "$@"
