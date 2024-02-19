@@ -17,6 +17,13 @@ There is no official affiliation between pandoc-rss and Pandoc.
 
 ## Installation
 
+### Arch Linux
+
+pandoc-rss is [available from the
+AUR](https://aur.archlinux.org/packages/pandoc-rss).
+
+### Manual
+
 System-wide installation as root:
 
     make install
